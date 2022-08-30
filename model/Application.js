@@ -1,18 +1,11 @@
 const mongoose = require('mongoose');
+const Company = require('./Company').schema;
 const ApplicationContact = require('./ApplicationContact').schema;
 
 const Schema = mongoose.Schema;
 
 const applicationSchema = new Schema({
-  company: {
-    name: String,
-    location: String,
-    size: String,
-    product: String,
-    values: [String],
-    culture: String,
-    tech: [String],
-  },
+  company: Company,
   job: {
     description: String,
     responsibilities: [String],
