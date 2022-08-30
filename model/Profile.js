@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const ProfileExperience = require('./ProfileExperience').schema;
 const ProfileEducation = require('./ProfileEducation').schema;
+
+const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
   userId: mongoose.Types.ObjectId,

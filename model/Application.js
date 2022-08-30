@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const ApplicationContact = require('./ApplicationContact').schema;
+
 const Schema = mongoose.Schema;
 
 const applicationSchema = new Schema({
@@ -16,19 +18,7 @@ const applicationSchema = new Schema({
     responsibilities: [String],
     skills: [String],
   },
-  contact: [
-    {
-      name: String,
-      position: String,
-      email: String,
-      links: [
-        {
-          title: String,
-          url: { type: String, required: true },
-        },
-      ],
-    },
-  ],
+  contact: [ApplicationContact],
 });
 
 module.exports = mongoose.model('Application', applicationSchema);
