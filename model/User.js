@@ -8,8 +8,15 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   email: { type: String, required: true },
   pwd: { type: String, required: true },
-  createdAt: { type: Date, immutable: true, default: () => new Date().now },
-  updatedAt: { type: Date, default: () => new Date().now },
+  createdAt: {
+    type: Date,
+    immutable: true,
+    default: () => Date.now(),
+  },
+  updatedAt: {
+    type: Date,
+    default: () => Date.now(),
+  },
   profiles: [Profile],
   applications: [Application],
   events: [ApplicationEvent],
