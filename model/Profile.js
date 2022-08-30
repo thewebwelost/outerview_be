@@ -1,20 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ProfileExperience = require('./ProfileExperience').schema;
+const ProfileEducation = require('./ProfileEducation').schema;
 
 const profileSchema = new Schema({
-  id: String,
-  username: String,
+  userId: mongoose.Types.ObjectId,
+  name: String,
   title: String,
-
   summary: String,
   details: [String],
   hardSkills: [String],
   softSkills: [String],
-
-  experience: [], // TODO: add experience model
-  education: [], // TODO: add education model
+  experience: [ProfileExperience],
+  education: [ProfileEducation],
   achievements: [{ title: String, description: String }],
-
   contacts: {
     country: String,
     city: String,
@@ -23,7 +22,6 @@ const profileSchema = new Schema({
     website: String,
     socials: [{ title: String, url: String }],
   },
-
   applications: [String],
 });
 

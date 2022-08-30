@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Profile = require('./Profile').schema;
+const Application = require('./Application').schema;
+const ApplicationEvent = require('./ApplicationEvent').schema;
 
 const userSchema = new Schema({
-  id: { type: String, required: true },
   username: { type: String, required: true },
   email: { type: String, required: true },
   pwd: { type: String, required: true },
-
-  profiles: { type: Array },
-  applications: { type: Array },
-  events: { type: Array },
+  createdAt: { type: Date, immutable: true, default: () => new Date().now },
+  updatedAt: { type: Date, default: () => new Date().now },
+  profiles: [Profile],
+  applications: [Application],
+  events: [ApplicationEvent],
 });
 
 module.exports = mongoose.model('User', userSchema);
