@@ -17,3 +17,7 @@ const getUser = async (req, res) => {
     console.error(err);
   }
 };
+
+module.exports = {
+  addUser,
+};
