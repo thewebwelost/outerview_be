@@ -6,23 +6,24 @@ const createUser = async (req, res) => {
   if (!username || !password)
     return res.status(400).json({ message: 'Name or password missing' });
 
-  const duplicate = await User.findOne({ email }).exec();
-  if (duplicate) return res.sendStatus(409); // Conflict
+  // const duplicate = await User.findOne({ email }).exec();
+  // if (duplicate) return res.sendStatus(409); // Conflict
 
-  try {
-    // encrypting password
-    const hashedPwd = await bcrypt.hash(password, 10);
-    // create and store new user
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPwd,
-    });
+  // try {
+  //   // encrypting password
+  //   const hashedPwd = await bcrypt.hash(password, 10);
+  //   // create and store new user
+  //   const newUser = await User.create({
+  //     username,
+  //     email,
+  //     password: hashedPwd,
+  //   });
 
-    res.status(201).json({ success: `User ${newUser.username} added` });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  //   res.status(201).json({ success: `User ${newUser.username} added` });
+  // } catch (err) {
+  //   res.status(500).json({ message: err.message });
+  // }
+  res.sendStatus(200); // TODO: everything to be cleaned
 };
 
 module.exports = {

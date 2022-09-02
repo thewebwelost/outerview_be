@@ -6,20 +6,21 @@ const handleLogout = async (req, res) => {
   if (!cookies?.jwt) res.sendStatus(204);
   const refreshToken = cookies.jwt;
 
-  const foundUser = await User.findOne({ refreshToken }).exec();
-  if (!foundUser) {
-    res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'None' });
-    return res.sendStatus(204);
-  }
+  // const foundUser = await User.findOne({ refreshToken }).exec();
+  // if (!foundUser) {
+  //   res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'None' });
+  //   return res.sendStatus(204);
+  // }
 
-  // delete the refreshToken from db
-  foundUser.refreshToken = foundUser.refreshToken.filter(
-    (rt) => rt !== refreshToken
-  );
-  await foundUser.save();
+  // // delete the refreshToken from db
+  // foundUser.refreshToken = foundUser.refreshToken.filter(
+  //   (rt) => rt !== refreshToken
+  // );
+  // await foundUser.save();
 
-  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'None' });
-  res.sendStatus(204);
+  // res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'None' });
+  // res.sendStatus(204);
+  res.sendStatus(200); // TODO: everything to be cleaned
 };
 
 module.exports = { handleLogout };
