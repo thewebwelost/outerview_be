@@ -1,3 +1,20 @@
+// import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+// @Entity()
+// export class User {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column()
+//   firstName: string;
+
+//   @Column()
+//   lastName: string;
+
+//   @Column()
+//   age: number;
+// }
+
 // const mongoose = require('mongoose');
 // const Profile = require('./Profile').schema;
 // const Application = require('./Application').schema;
