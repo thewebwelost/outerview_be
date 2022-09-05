@@ -2,7 +2,7 @@ const User = require('../model/User');
 const bcrypt = require('bcrypt');
 
 const createUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, rememberMe } = req.body;
   if (!username || !password)
     return res.status(400).json({ message: 'Name or password missing' });
 
