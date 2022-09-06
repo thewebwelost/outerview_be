@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import connectDB from './config/dbConnection';
@@ -12,7 +11,7 @@ import logout from './routes/logout';
 
 const PORT = process.env.PORT || 8080;
 
-connectDB('');
+connectDB();
 const app = express();
 
 app.use(credentials);

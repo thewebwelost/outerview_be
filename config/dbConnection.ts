@@ -1,14 +1,9 @@
-// const { mongoose } = require('mongoose');
+import { AppDataSource } from '../data-source';
 
-const connectDB = async (params: any) => {
-  // try {
-  //   await mongoose.connect(process.env.DATABASE_URI, {
-  //     useUnifiedTopology: true,
-  //     useNewUrlParser: true,
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  // }
+const connectDB = async () => {
+  await AppDataSource.initialize()
+    .then(() => console.log('Connected to the database'))
+    .catch((error) => console.log(error));
 };
 
 export default connectDB;
