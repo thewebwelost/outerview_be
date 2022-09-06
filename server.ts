@@ -2,11 +2,9 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-
 import connectDB from './config/dbConnection';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
-
 import register from './routes/register';
 import auth from './routes/auth';
 import refresh from './routes/refresh';
@@ -14,11 +12,7 @@ import logout from './routes/logout';
 
 const PORT = process.env.PORT || 8080;
 
-console.log(process.env.PORT);
-
-// connect to DB
 connectDB('');
-
 const app = express();
 
 app.use(credentials);
@@ -39,7 +33,7 @@ app.all('*', (req, res) => {
 // error logging
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('[server]: Something broke!');
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
