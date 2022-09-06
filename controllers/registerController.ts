@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../model/User';
+import { controllerErrorHandler } from '../helpers/controllerError';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password, rememberMe } = req.body;
@@ -22,9 +23,7 @@ const createUser = async (req: Request, res: Response) => {
 
     res.status(201).json({ success: `User ${newUser.username} added` });
   } catch (err) {
-    let message = 'Unknown Error';
-    if (err instanceof Error) message = err.message;
-    res.status(500).json({ message });
+    controllerErrorHandler({ err, res });
   }
 
   res.sendStatus(200); // TODO: everything to be cleaned

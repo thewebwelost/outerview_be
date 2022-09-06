@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { controllerErrorHandler } from '../helpers/controllerError';
 import { User } from '../model/User';
 
 const getUser = async (req: Request, res: Response) => {
@@ -18,7 +19,7 @@ const getUser = async (req: Request, res: Response) => {
     }
     return res.status(200).json(user);
   } catch (err) {
-    console.error(err);
+    controllerErrorHandler({ err, res });
   }
 
   res.sendStatus(200); // TODO: everything to be cleaned
