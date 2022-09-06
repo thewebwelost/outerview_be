@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { ProfileExperience } from './ProfileExperience';
 import { ProfileEducation } from './ProfileEducation';
 import { Link } from './Link';
@@ -18,7 +18,7 @@ interface Achievements {
 }
 
 @Entity()
-export class Profile {
+export class Profile extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

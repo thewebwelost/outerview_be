@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { Link } from './Link';
 
 @Entity()
-export class ApplicationContact {
+export class ApplicationContact extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

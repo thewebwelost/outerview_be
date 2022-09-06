@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { ApplicationContact } from './ApplicationContact';
 
 @Entity()
-export class ApplicationEvent {
+export class ApplicationEvent extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

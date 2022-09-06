@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { Company } from './Company';
 import { ApplicationContact } from './ApplicationContact';
 
@@ -9,7 +9,7 @@ interface Job {
 }
 
 @Entity()
-export class Application {
+export class Application extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
