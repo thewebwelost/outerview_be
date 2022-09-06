@@ -1,15 +1,28 @@
-// const mongoose = require('mongoose');
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-// const Schema = mongoose.Schema;
+@Entity()
+export class Company {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// const companySchema = new Schema({
-//   name: String,
-//   location: String,
-//   size: String,
-//   product: String,
-//   values: [String],
-//   culture: String,
-//   tech: [String],
-// });
+  @Column()
+  name!: string;
 
-// export default mongoose.model('Company', companySchema);
+  @Column()
+  location!: string;
+
+  @Column()
+  size!: string;
+
+  @Column()
+  product!: string;
+
+  @Column()
+  values!: string[];
+
+  @Column()
+  culture!: string;
+
+  @Column()
+  tech!: string[];
+}

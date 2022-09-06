@@ -1,17 +1,24 @@
-// const mongoose = require('mongoose');
-// const Company = require('./Company').schema;
-// const ApplicationContact = require('./ApplicationContact').schema;
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Company } from './Company';
+import { ApplicationContact } from './ApplicationContact';
 
-// const Schema = mongoose.Schema;
+interface Job {
+  description: string;
+  responsibilities: string[];
+  skills: string[];
+}
 
-// const applicationSchema = new Schema({
-//   company: Company,
-//   job: {
-//     description: String,
-//     responsibilities: [String],
-//     skills: [String],
-//   },
-//   contact: [ApplicationContact],
-// });
+@Entity()
+export class Application {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// export default mongoose.model('Application', applicationSchema);
+  @Column()
+  company!: Company;
+
+  @Column()
+  job!: Job;
+
+  @Column()
+  contact!: ApplicationContact[];
+}

@@ -1,14 +1,28 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-// const profileExperienceSchema = new Schema({
-//   name: String,
-//   startDate: Date,
-//   endDate: Date,
-//   isCurrent: Boolean,
-//   responsibilities: [String],
-//   achievements: [String],
-//   keywords: [String],
-// });
+@Entity()
+export class ProfileExperience {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// export default mongoose.model('ProfileExperience', profileExperienceSchema);
+  @Column()
+  name!: string;
+
+  @Column()
+  startDate!: Date;
+
+  @Column()
+  endDate!: Date;
+
+  @Column()
+  isCurrent!: boolean;
+
+  @Column()
+  responsibilities!: string[];
+
+  @Column()
+  achievements!: string[];
+
+  @Column()
+  keywords!: string[];
+}

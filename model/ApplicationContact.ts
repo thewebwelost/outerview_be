@@ -1,17 +1,20 @@
-// const mongoose = require('mongoose');
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Link } from './Link';
 
-// const Schema = mongoose.Schema;
+@Entity()
+export class ApplicationContact {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// const applicationContactSchema = new Schema({
-//   name: String,
-//   position: String,
-//   email: String,
-//   links: [
-//     {
-//       title: String,
-//       url: { type: String, required: true },
-//     },
-//   ],
-// });
+  @Column()
+  name!: string;
 
-// export default mongoose.model('ApplicationContact', applicationContactSchema);
+  @Column()
+  position!: string;
+
+  @Column()
+  email!: string;
+
+  @Column()
+  links!: Link[];
+}

@@ -1,29 +1,57 @@
-// const mongoose = require('mongoose');
-// const ProfileExperience = require('./ProfileExperience').schema;
-// const ProfileEducation = require('./ProfileEducation').schema;
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ProfileExperience } from './ProfileExperience';
+import { ProfileEducation } from './ProfileEducation';
+import { Link } from './Link';
 
-// const Schema = mongoose.Schema;
+interface Contacts {
+  country: string;
+  city: string;
+  state: string;
+  email: string;
+  website: string;
+  socials: Link[];
+}
 
-// const profileSchema = new Schema({
-//   userId: mongoose.Types.ObjectId,
-//   name: String,
-//   title: String,
-//   summary: String,
-//   details: [String],
-//   hardSkills: [String],
-//   softSkills: [String],
-//   experience: [ProfileExperience],
-//   education: [ProfileEducation],
-//   achievements: [{ title: String, description: String }],
-//   contacts: {
-//     country: String,
-//     city: String,
-//     state: String,
-//     email: String,
-//     website: String,
-//     socials: [{ title: String, url: String }],
-//   },
-//   applications: [String],
-// });
+interface Achievements {
+  title: string;
+  description: string;
+}
 
-// export default mongoose.model('Profile', profileSchema);
+@Entity()
+export class Profile {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  name!: string;
+
+  @Column()
+  title!: string;
+
+  @Column()
+  summary!: string;
+
+  @Column()
+  details!: string[];
+
+  @Column()
+  hardSkills!: string[];
+
+  @Column()
+  softSkills!: string[];
+
+  @Column()
+  experience!: ProfileExperience[];
+
+  @Column()
+  education!: ProfileEducation[];
+
+  @Column()
+  achievements!: Achievements[];
+
+  @Column()
+  contacts!: Contacts;
+
+  @Column()
+  applications!: string[];
+}

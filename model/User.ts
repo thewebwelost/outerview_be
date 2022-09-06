@@ -1,44 +1,38 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-// @Entity()
-// export class User {
-//   @PrimaryGeneratedColumn()
-//   id: number;
+import { Profile } from './Profile';
+import { Application } from './Application';
+import { ApplicationEvent } from './ApplicationEvent';
 
-//   @Column()
-//   firstName: string;
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-//   @Column()
-//   lastName: string;
+  @Column()
+  avatar!: string;
 
-//   @Column()
-//   age: number;
-// }
+  @Column()
+  username!: string;
 
-// const mongoose = require('mongoose');
-// const Profile = require('./Profile').schema;
-// const Application = require('./Application').schema;
-// const ApplicationEvent = require('./ApplicationEvent').schema;
+  @Column()
+  email!: string;
 
-// const Schema = mongoose.Schema;
+  @Column()
+  password!: string;
 
-// const userSchema = new Schema({
-//   avatar: String,
-//   username: { type: String, required: true },
-//   email: { type: String, required: true },
-//   password: { type: String, required: true },
-//   createdAt: {
-//     type: Date,
-//     immutable: true,
-//     default: () => Date.now(),
-//   },
-//   updatedAt: {
-//     type: Date,
-//     default: () => Date.now(),
-//   },
-//   profiles: [Profile],
-//   applications: [Application],
-//   events: [ApplicationEvent],
-// });
+  @Column()
+  createdAt!: Date;
 
-// export default mongoose.model('User', userSchema);
+  @Column()
+  updatedAt!: Date;
+
+  @Column()
+  profiles!: Profile[];
+
+  @Column()
+  applications!: Application[];
+
+  @Column()
+  events!: ApplicationEvent[];
+}

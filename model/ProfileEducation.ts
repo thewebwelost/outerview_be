@@ -1,13 +1,25 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-// const profileEducationSchema = new Schema({
-//   name: String,
-//   startDate: Date,
-//   endDate: Date,
-//   isCurrent: Boolean,
-//   degree: String,
-//   details: [String],
-// });
+@Entity()
+export class ProfileEducation {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// export default mongoose.model('ProfileEducation', profileEducationSchema);
+  @Column()
+  name!: string;
+
+  @Column()
+  startDate!: Date;
+
+  @Column()
+  endDate!: Date;
+
+  @Column()
+  isCurrent!: boolean;
+
+  @Column()
+  degree!: string;
+
+  @Column()
+  details!: string[];
+}

@@ -1,16 +1,29 @@
-// const mongoose = require('mongoose');
-// const ApplicationContact = require('./ApplicationContact').schema;
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ApplicationContact } from './ApplicationContact';
 
-// const Schema = mongoose.Schema;
+@Entity()
+export class ApplicationEvent {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-// const applicationEventSchema = new Schema({
-//   company: String,
-//   role: String,
-//   step: String,
-//   time: String,
-//   date: Date,
-//   interviewer: ApplicationContact,
-//   details: String,
-// });
+  @Column()
+  company!: string;
 
-// export default mongoose.model('ApplicationEvent', applicationEventSchema);
+  @Column()
+  role!: string;
+
+  @Column()
+  step!: string;
+
+  @Column()
+  time!: string;
+
+  @Column()
+  date!: Date;
+
+  @Column()
+  interviewer!: ApplicationContact[];
+
+  @Column()
+  details!: string;
+}
