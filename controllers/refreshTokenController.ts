@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken');
-const User = require('../model/User');
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
-const handleRefreshToken = async (req, res) => {
+const handleRefreshToken = async (req: Request, res: Response) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) res.sendStatus(401);
   const refreshToken = cookies.jwt;
-  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'None' });
+  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
 
   // const foundUser = await User.findOne({ refreshToken }).exec();
   // // reuse refresh token scenario
@@ -68,4 +68,4 @@ const handleRefreshToken = async (req, res) => {
   res.sendStatus(200); // TODO: everything to be cleaned
 };
 
-module.exports = { handleRefreshToken };
+export default { handleRefreshToken };

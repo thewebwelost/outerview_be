@@ -26,4 +26,4 @@
 //   applications: [String],
 // });
 
-// module.exports = mongoose.model('Profile', profileSchema);
+// export default mongoose.model('Profile', profileSchema);

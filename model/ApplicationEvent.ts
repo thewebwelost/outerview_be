@@ -13,4 +13,4 @@
 //   details: String,
 // });
 
-// module.exports = mongoose.model('ApplicationEvent', applicationEventSchema);
+// export default mongoose.model('ApplicationEvent', applicationEventSchema);

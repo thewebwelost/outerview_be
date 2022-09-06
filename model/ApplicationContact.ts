@@ -14,4 +14,4 @@
 //   ],
 // });
 
-// module.exports = mongoose.model('ApplicationContact', applicationContactSchema);
+// export default mongoose.model('ApplicationContact', applicationContactSchema);

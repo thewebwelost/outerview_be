@@ -1,4 +1,4 @@
-// import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 // @Entity()
 // export class User {
@@ -41,4 +41,4 @@
 //   events: [ApplicationEvent],
 // });
 
-// module.exports = mongoose.model('User', userSchema);
+// export default mongoose.model('User', userSchema);

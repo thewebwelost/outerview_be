@@ -1,7 +1,7 @@
-const User = require('../model/User');
-const bcrypt = require('bcrypt');
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 
-const createUser = async (req, res) => {
+const createUser = async (req: Request, res: Response) => {
   const { username, email, password, rememberMe } = req.body;
   if (!username || !password)
     return res.status(400).json({ message: 'Name or password missing' });
@@ -26,6 +26,6 @@ const createUser = async (req, res) => {
   res.sendStatus(200); // TODO: everything to be cleaned
 };
 
-module.exports = {
+export default {
   createUser,
 };

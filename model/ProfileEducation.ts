@@ -10,4 +10,4 @@
 //   details: [String],
 // });
 
-// module.exports = mongoose.model('ProfileEducation', profileEducationSchema);
+// export default mongoose.model('ProfileEducation', profileEducationSchema);

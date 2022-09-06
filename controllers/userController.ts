@@ -1,6 +1,6 @@
-const User = require('../model/User');
+import { Request, Response } from 'express';
 
-const getUser = async (req, res) => {
+const getUser = async (req: Request, res: Response) => {
   if (!req.params.id) {
     return res.status(400).json({ message: 'No user Id was provided' });
   }
@@ -19,6 +19,6 @@ const getUser = async (req, res) => {
   res.sendStatus(200); // TODO: everything to be cleaned
 };
 
-module.exports = {
-  addUser,
+export default {
+  getUser,
 };

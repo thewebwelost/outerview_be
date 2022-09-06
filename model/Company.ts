@@ -12,4 +12,4 @@
 //   tech: [String],
 // });
 
-// module.exports = mongoose.model('Company', companySchema);
+// export default mongoose.model('Company', companySchema);

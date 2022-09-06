@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../model/User');
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-const handleLogin = async (req, res) => {
+const handleLogin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const cookie = req.cookies;
 
@@ -68,4 +68,4 @@ const handleLogin = async (req, res) => {
   });
 };
 
-module.exports = { handleLogin };
+export default { handleLogin };

@@ -14,4 +14,4 @@
 //   contact: [ApplicationContact],
 // });
 
-// module.exports = mongoose.model('Application', applicationSchema);
+// export default mongoose.model('Application', applicationSchema);

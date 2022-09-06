@@ -1,6 +1,6 @@
-const User = require('../model/User');
+import { Request, Response } from 'express';
 
-const handleLogout = async (req, res) => {
+const handleLogout = async (req: Request, res: Response) => {
   // Client should delete the accessToken as well
   const cookies = req.cookies;
   if (!cookies?.jwt) res.sendStatus(204);
@@ -23,4 +23,4 @@ const handleLogout = async (req, res) => {
   res.sendStatus(200); // TODO: everything to be cleaned
 };
 
-module.exports = { handleLogout };
+export default { handleLogout };
