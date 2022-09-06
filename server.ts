@@ -12,7 +12,6 @@ import auth from './routes/auth';
 import refresh from './routes/refresh';
 import logout from './routes/logout';
 
-// dotenv.config({ path: __dirname + '/.env' });
 const PORT = process.env.PORT || 8080;
 
 console.log(process.env.PORT);
