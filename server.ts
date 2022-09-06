@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import 'dotenv/config';
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
@@ -14,6 +14,8 @@ import logout from './routes/logout';
 
 // dotenv.config({ path: __dirname + '/.env' });
 const PORT = process.env.PORT || 8080;
+
+console.log(process.env.PORT);
 
 // connect to DB
 connectDB('');
