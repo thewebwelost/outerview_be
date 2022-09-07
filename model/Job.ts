@@ -1,28 +1,19 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
-export class Company extends BaseEntity {
+export class Job extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  name!: string;
+  user!: number;
 
   @Column()
-  location!: string;
-
-  @Column()
-  size!: string;
-
-  @Column()
-  product!: string;
+  description!: string;
 
   @Column({ type: 'varchar', array: true })
-  values!: string[];
-
-  @Column()
-  culture!: string;
+  responsibilities!: string[];
 
   @Column({ type: 'varchar', array: true })
-  tech!: string[];
+  skills!: string[];
 }

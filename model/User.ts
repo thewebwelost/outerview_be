@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { Profile } from './Profile';
 import { Application } from './Application';
@@ -21,18 +28,18 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
-  @Column()
+  @CreateDateColumn()
   createdAt!: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column()
-  profiles!: Profile[];
+  @Column({ type: 'int', array: true })
+  profiles!: number[];
 
-  @Column()
-  applications!: Application[];
+  @Column({ type: 'int', array: true })
+  applications!: number[];
 
-  @Column()
-  events!: ApplicationEvent[];
+  @Column({ type: 'int', array: true })
+  events!: number[];
 }

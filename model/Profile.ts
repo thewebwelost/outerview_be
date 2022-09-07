@@ -31,13 +31,13 @@ export class Profile extends BaseEntity {
   @Column()
   summary!: string;
 
-  @Column()
+  @Column('text', { array: true })
   details!: string[];
 
-  @Column()
+  @Column('text', { array: true })
   hardSkills!: string[];
 
-  @Column()
+  @Column('text', { array: true })
   softSkills!: string[];
 
   @Column()
@@ -50,8 +50,23 @@ export class Profile extends BaseEntity {
   achievements!: Achievements[];
 
   @Column()
-  contacts!: Contacts;
+  country!: string;
 
   @Column()
-  applications!: string[];
+  city!: string;
+
+  @Column()
+  state!: string;
+
+  @Column()
+  email!: string;
+
+  @Column()
+  website!: string;
+
+  // @Column()
+  // socials!: Link[];
+
+  @Column('int', { array: true })
+  applications!: number[];
 }
