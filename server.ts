@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import connectDB from './config/dbConnection';
+import { connectDb } from './data-source';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
 import register from './routes/register';
@@ -9,9 +9,9 @@ import auth from './routes/auth';
 import refresh from './routes/refresh';
 import logout from './routes/logout';
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.APP_PORT || 8080;
 
-connectDB();
+connectDb();
 const app = express();
 
 app.use(credentials);
