@@ -12,44 +12,44 @@ export class Profile extends BaseEntity {
   name!: string;
 
   @Column({ type: 'text', nullable: true })
-  title: string | undefined;
+  title?: string;
 
   @Column({ type: 'text', nullable: true })
-  summary: string | undefined;
+  summary?: string;
 
   @Column({ type: 'simple-array', nullable: true })
-  details: string[] | undefined;
+  details?: string[];
 
   @Column({ type: 'simple-array', nullable: true })
-  hardSkills: string[] | undefined;
+  hardSkills?: string[];
 
   @Column({ type: 'simple-array', nullable: true })
-  softSkills: string[] | undefined;
+  softSkills?: string[];
 
   @Column({ type: 'int', array: true, nullable: true })
-  experience: number[] | undefined;
+  experience?: number[];
 
   @Column({ type: 'int', array: true, nullable: true })
-  education: number[] | undefined;
+  education?: number[];
 
   @Column('simple-array')
-  achievements: string[] | undefined;
+  achievements?: string[];
 
   @Column({ type: 'text', nullable: true })
-  country: string | undefined;
+  country?: string;
 
   @Column({ type: 'text', nullable: true })
-  city: string | undefined;
+  city?: string;
 
   @Column({ type: 'text', nullable: true })
-  state: string | undefined;
+  state?: string;
 
   @Column({ type: 'text', nullable: true })
-  email: string | undefined;
+  email?: string;
 
   @Column({ type: 'text', nullable: true })
-  website: string | undefined;
+  website?: string;
 
   @Column({ type: 'int', array: true, nullable: true })
-  socials: number[] | undefined;
+  socials?: number[];
 }
