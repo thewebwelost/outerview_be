@@ -11,45 +11,45 @@ export class Profile extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column()
-  title!: string;
+  @Column({ nullable: true })
+  title: string | undefined;
 
-  @Column()
-  summary!: string;
+  @Column({ nullable: true })
+  summary: string | undefined;
+
+  @Column({ type: 'simple-array', nullable: true })
+  details: string[] | undefined;
+
+  @Column({ type: 'simple-array', nullable: true })
+  hardSkills: string[] | undefined;
+
+  @Column({ type: 'simple-array', nullable: true })
+  softSkills: string[] | undefined;
+
+  @Column({ type: 'int', array: true, nullable: true })
+  experience: number[] | undefined;
+
+  @Column({ type: 'int', array: true, nullable: true })
+  education: number[] | undefined;
 
   @Column('simple-array')
-  details!: string[];
+  achievements: string[] | undefined;
 
-  @Column('simple-array')
-  hardSkills!: string[];
+  @Column({ nullable: true })
+  country: string | undefined;
 
-  @Column('simple-array')
-  softSkills!: string[];
+  @Column({ nullable: true })
+  city: string | undefined;
 
-  @Column({ type: 'int', array: true })
-  experience!: number[];
+  @Column({ nullable: true })
+  state: string | undefined;
 
-  @Column({ type: 'int', array: true })
-  education!: number[];
+  @Column({ nullable: true })
+  email: string | undefined;
 
-  @Column('simple-array')
-  achievements!: string[];
+  @Column({ nullable: true })
+  website: string | undefined;
 
-  @Column()
-  country!: string;
-
-  @Column()
-  city!: string;
-
-  @Column()
-  state!: string;
-
-  @Column()
-  email!: string;
-
-  @Column()
-  website!: string;
-
-  @Column({ type: 'int', array: true })
-  socials!: number[];
+  @Column({ type: 'int', array: true, nullable: true })
+  socials: number[] | undefined;
 }
