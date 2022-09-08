@@ -7,8 +7,6 @@ import { AppDataSource } from '../data-source';
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password, rememberMe } = req.body;
 
-  console.log({ username, email, password });
-
   if (!username || !password || !email)
     return res
       .status(400)

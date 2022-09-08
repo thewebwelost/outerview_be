@@ -12,8 +12,8 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  avatar!: string;
+  @Column({ type: 'varchar', nullable: true })
+  avatar: string | undefined;
 
   @Column()
   username!: string;
@@ -30,9 +30,9 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column({ type: 'int', array: true })
-  profiles!: number[];
+  @Column({ type: 'int', array: true, nullable: true })
+  profiles: number[] | undefined;
 
-  @Column({ type: 'int', array: true })
-  applications!: number[];
+  @Column({ type: 'int', array: true, nullable: true })
+  applications: number[] | undefined;
 }

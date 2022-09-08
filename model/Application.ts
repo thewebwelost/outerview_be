@@ -15,5 +15,5 @@ export class Application extends BaseEntity {
   job!: number[];
 
   @Column({ type: 'int', array: true })
-  events!: number[];
+  events: number[] | undefined;
 }

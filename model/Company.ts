@@ -20,13 +20,13 @@ export class Company extends BaseEntity {
   @Column()
   product!: string;
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   values!: string[];
 
   @Column()
   culture!: string;
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   tech!: string[];
 
   @Column({ type: 'int', array: true })

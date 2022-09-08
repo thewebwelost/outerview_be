@@ -17,13 +17,13 @@ export class Profile extends BaseEntity {
   @Column()
   summary!: string;
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   details!: string[];
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   hardSkills!: string[];
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   softSkills!: string[];
 
   @Column({ type: 'int', array: true })
@@ -32,7 +32,7 @@ export class Profile extends BaseEntity {
   @Column({ type: 'int', array: true })
   education!: number[];
 
-  @Column({ type: 'text', array: true })
+  @Column('simple-array')
   achievements!: string[];
 
   @Column()
