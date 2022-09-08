@@ -5,7 +5,7 @@ export enum LinkType {
   SOCIAL = 'social',
 }
 
-@Entity()
+@Entity('links')
 export class Link extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;

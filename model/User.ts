@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -18,7 +18,7 @@ export class User extends BaseEntity {
   @Column()
   username!: string;
 
-  @Column()
+  @Column({ unique: true })
   email!: string;
 
   @Column()

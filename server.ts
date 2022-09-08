@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { connectDb } from './data-source';
+import { AppDataSource } from './data-source';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
 import register from './routes/register';
@@ -11,7 +11,10 @@ import logout from './routes/logout';
 
 const PORT = process.env.APP_PORT || 8080;
 
-connectDb();
+AppDataSource.initialize()
+  .then(() => console.log('Connected to the database'))
+  .catch((error) => console.log(error));
+
 const app = express();
 
 app.use(credentials);
