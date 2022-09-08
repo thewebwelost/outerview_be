@@ -1,26 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { ProfileExperience } from './ProfileExperience';
-import { ProfileEducation } from './ProfileEducation';
-import { Link } from './Link';
-
-interface Contacts {
-  country: string;
-  city: string;
-  state: string;
-  email: string;
-  website: string;
-  socials: Link[];
-}
-
-interface Achievements {
-  title: string;
-  description: string;
-}
 
 @Entity()
 export class Profile extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column()
+  user!: number; // relation to user
 
   @Column()
   name!: string;
@@ -31,23 +17,23 @@ export class Profile extends BaseEntity {
   @Column()
   summary!: string;
 
-  @Column('text', { array: true })
+  @Column({ type: 'text', array: true })
   details!: string[];
 
-  @Column('text', { array: true })
+  @Column({ type: 'text', array: true })
   hardSkills!: string[];
 
-  @Column('text', { array: true })
+  @Column({ type: 'text', array: true })
   softSkills!: string[];
 
-  @Column()
-  experience!: ProfileExperience[];
+  @Column({ type: 'int', array: true })
+  experience!: number[];
 
-  @Column()
-  education!: ProfileEducation[];
+  @Column({ type: 'int', array: true })
+  education!: number[];
 
-  @Column()
-  achievements!: Achievements[];
+  @Column({ type: 'text', array: true })
+  achievements!: string[];
 
   @Column()
   country!: string;
@@ -64,9 +50,6 @@ export class Profile extends BaseEntity {
   @Column()
   website!: string;
 
-  // @Column()
-  // socials!: Link[];
-
-  @Column('int', { array: true })
-  applications!: number[];
+  @Column({ type: 'int', array: true })
+  socials!: number[];
 }

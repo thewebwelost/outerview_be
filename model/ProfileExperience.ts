@@ -1,9 +1,12 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class ProfileExperience extends BaseEntity {
+export class Experience extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column()
+  profile!: number; // relation to profile
 
   @Column()
   name!: string;

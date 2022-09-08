@@ -1,10 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { Link } from './Link';
 
 @Entity()
-export class ApplicationContact extends BaseEntity {
+export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column()
+  companyId!: number;
 
   @Column()
   name!: string;
@@ -15,6 +17,6 @@ export class ApplicationContact extends BaseEntity {
   @Column()
   email!: string;
 
-  @Column()
-  links!: Link[];
+  @Column({ type: 'int', array: true })
+  links!: number[];
 }

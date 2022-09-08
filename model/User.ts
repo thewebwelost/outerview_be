@@ -39,7 +39,4 @@ export class User extends BaseEntity {
 
   @Column({ type: 'int', array: true })
   applications!: number[];
-
-  @Column({ type: 'int', array: true })
-  events!: number[];
 }

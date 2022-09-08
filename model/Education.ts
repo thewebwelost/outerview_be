@@ -1,9 +1,12 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class ProfileEducation extends BaseEntity {
+export class Education extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column()
+  profile!: number;
 
   @Column()
   name!: string;
@@ -20,6 +23,6 @@ export class ProfileEducation extends BaseEntity {
   @Column()
   degree!: string;
 
-  @Column()
+  @Column({ type: 'varchar', array: true })
   details!: string[];
 }

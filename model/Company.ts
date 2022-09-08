@@ -6,6 +6,9 @@ export class Company extends BaseEntity {
   id!: number;
 
   @Column()
+  user!: number; // relation to user
+
+  @Column()
   name!: string;
 
   @Column()
@@ -25,4 +28,7 @@ export class Company extends BaseEntity {
 
   @Column({ type: 'varchar', array: true })
   tech!: string[];
+
+  @Column({ type: 'int', array: true })
+  contact!: number[];
 }

@@ -6,7 +6,7 @@ export class Job extends BaseEntity {
   id!: number;
 
   @Column()
-  user!: number;
+  application!: number;
 
   @Column()
   description!: string;

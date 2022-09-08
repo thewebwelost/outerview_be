@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { ApplicationContact } from './ApplicationContact';
 
 @Entity()
 export class ApplicationEvent extends BaseEntity {
@@ -7,7 +6,10 @@ export class ApplicationEvent extends BaseEntity {
   id!: number;
 
   @Column()
-  company!: string;
+  application!: number; // relation to application
+
+  @Column()
+  title!: string;
 
   @Column()
   role!: string;
@@ -16,13 +18,10 @@ export class ApplicationEvent extends BaseEntity {
   step!: string;
 
   @Column()
-  time!: string;
-
-  @Column()
   date!: Date;
 
-  @Column()
-  interviewer!: ApplicationContact[];
+  @Column({ type: 'int', array: true })
+  interviewers!: number[];
 
   @Column()
   details!: string;
