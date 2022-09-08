@@ -11,9 +11,9 @@ export class Job extends BaseEntity {
   @Column()
   description!: string;
 
-  @Column({ type: 'varchar', array: true })
+  @Column({ type: 'text', array: true })
   responsibilities!: string[];
 
-  @Column({ type: 'varchar', array: true })
+  @Column({ type: 'text', array: true })
   skills!: string[];
 }

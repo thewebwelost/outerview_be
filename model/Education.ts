@@ -23,6 +23,6 @@ export class Education extends BaseEntity {
   @Column()
   degree!: string;
 
-  @Column({ type: 'varchar', array: true })
+  @Column({ type: 'text', array: true })
   details!: string[];
 }

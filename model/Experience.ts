@@ -20,12 +20,12 @@ export class Experience extends BaseEntity {
   @Column()
   isCurrent!: boolean;
 
-  @Column()
+  @Column({ type: 'text', array: true })
   responsibilities!: string[];
 
-  @Column()
+  @Column({ type: 'text', array: true })
   achievements!: string[];
 
-  @Column()
+  @Column({ type: 'text', array: true })
   keywords!: string[];
 }
