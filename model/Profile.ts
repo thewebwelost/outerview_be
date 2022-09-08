@@ -11,10 +11,10 @@ export class Profile extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   title: string | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   summary: string | undefined;
 
   @Column({ type: 'simple-array', nullable: true })
@@ -35,19 +35,19 @@ export class Profile extends BaseEntity {
   @Column('simple-array')
   achievements: string[] | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   country: string | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   city: string | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   state: string | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   email: string | undefined;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   website: string | undefined;
 
   @Column({ type: 'int', array: true, nullable: true })
