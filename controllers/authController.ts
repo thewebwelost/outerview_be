@@ -5,7 +5,7 @@ import { AppDataSource } from '../data-source';
 import { User } from '../model/User';
 
 const handleLogin = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   const cookie = req.cookies;
 
   if (!email || !password) {
@@ -27,10 +27,11 @@ const handleLogin = async (req: Request, res: Response) => {
       process.env.ACCESS_TOKEN_SECRET as string,
       { expiresIn: '10m' }
     );
+
     const newRefreshToken = jwt.sign(
       { email: foundUser.email },
       process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: '1d' }
+      { expiresIn: rememberMe ? '1d' : '30d' }
     );
 
     const newRefreshTokenArr = !cookie?.jwt
@@ -54,6 +55,7 @@ const handleLogin = async (req: Request, res: Response) => {
       sameSite: 'none',
       maxAge: 1000 * 60 * 60 * 24, // 24h
     });
+
     res.json({
       accessToken,
       user: {
