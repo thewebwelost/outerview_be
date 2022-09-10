@@ -12,8 +12,8 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: 'varchar', array: true, default: null })
-  refreshToken: string | string[] | null | undefined;
+  @Column({ type: 'varchar', array: true, default: [] })
+  refreshToken!: string[];
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string | undefined;
