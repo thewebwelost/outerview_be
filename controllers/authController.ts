@@ -12,7 +12,9 @@ const handleLogin = async (req: Request, res: Response) => {
     res.status(400).json({ message: 'Name or password missing' });
   }
 
-  const foundUser = await AppDataSource.getRepository(User).findOne(email);
+  const foundUser = await AppDataSource.getRepository(User).findOne({
+    where: { email },
+  });
   if (!foundUser) return res.sendStatus(401);
   const match = await bcrypt.compare(password, foundUser.password);
 

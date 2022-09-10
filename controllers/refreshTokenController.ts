@@ -9,9 +9,9 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   const refreshToken = cookies.jwt;
   res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
 
-  const foundUser = await AppDataSource.getRepository(User).findOne(
-    refreshToken
-  );
+  const foundUser = await AppDataSource.getRepository(User).findOne({
+    where: { refreshToken },
+  });
 
   // reuse refresh token scenario
   if (!foundUser) {
@@ -21,9 +21,9 @@ const handleRefreshToken = async (req: Request, res: Response) => {
       // TODO: fix types
       async (err: any, decoded: any) => {
         if (err) return res.sendStatus(403);
-        const user = await AppDataSource.getRepository(User).findOne(
-          decoded.email
-        );
+        const user = await AppDataSource.getRepository(User).findOne({
+          where: { email: decoded.email },
+        });
         if (user) {
           user.refreshToken = [];
           await user.save();
