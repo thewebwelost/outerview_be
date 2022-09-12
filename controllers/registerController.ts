@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { User } from '../model/User';
 import { controllerErrorHandler } from '../helpers/controllerError';
-import { AppDataSource } from '../data-source';
+import { getUserRepo } from './userController';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password, rememberMe } = req.body;
@@ -12,23 +11,27 @@ const createUser = async (req: Request, res: Response) => {
       .status(400)
       .json({ message: 'Name, email or password is missing' });
 
-  const duplicate = await AppDataSource.getRepository(User).findOneBy({
-    email,
+  const repo = await getUserRepo();
+  const duplicate = await repo.findOne({
+    where: { email },
   });
+
   if (duplicate) return res.sendStatus(409); // Conflict
 
   try {
     // encrypting password
     const hashedPwd = await bcrypt.hash(password, 10);
     // create and store new user
-    const user = await AppDataSource.getRepository(User).create({
+    const user = repo.create({
       username,
       email,
       password: hashedPwd,
     });
-    await AppDataSource.getRepository(User).save(user);
+    await repo.save(user);
 
-    res.status(201).json({ success: `User ${username} added` });
+    res.status(201).json({
+      success: `User ${username} added`,
+    });
   } catch (err) {
     controllerErrorHandler({ err, res });
   }

@@ -5,9 +5,16 @@ import { User } from '../model/User';
 
 const handleRefreshToken = async (req: Request, res: Response) => {
   const cookies = req.cookies;
+
   if (!cookies?.jwt) res.sendStatus(401);
+
   const refreshToken = cookies.jwt;
-  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
+
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
 
   const foundUser = await AppDataSource.getRepository(User).findOne({
     where: { refreshToken },
@@ -24,6 +31,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         const user = await AppDataSource.getRepository(User).findOne({
           where: { email: decoded.email },
         });
+
         if (user) {
           user.refreshToken = [];
           await user.save();

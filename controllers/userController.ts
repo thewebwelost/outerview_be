@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
-import { controllerErrorHandler } from '../helpers/controllerError';
+import { AppDataSource } from '../data-source';
 import { User } from '../model/User';
+import { controllerErrorHandler } from '../helpers/controllerError';
+
+export const getUserRepo = async () => {
+  const repo = await AppDataSource.getRepository(User);
+  return repo;
+};
 
 const getUser = async (req: Request, res: Response) => {
   if (!req.params.email) {

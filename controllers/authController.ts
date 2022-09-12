@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { AppDataSource } from '../data-source';
-import { User } from '../model/User';
+import { createJwtToken } from '../middleware/createJwtToken';
+import { getUserRepo } from './userController';
 
 const handleLogin = async (req: Request, res: Response) => {
   const { email, password, rememberMe } = req.body;
@@ -12,29 +12,21 @@ const handleLogin = async (req: Request, res: Response) => {
     res.status(400).json({ message: 'Name or password missing' });
   }
 
-  const foundUser = await AppDataSource.getRepository(User).findOne({
+  const repo = await getUserRepo();
+
+  const foundUser = await repo.findOne({
     where: { email },
   });
+
   if (!foundUser) return res.sendStatus(401);
+
   const match = await bcrypt.compare(password, foundUser.password);
 
   if (match) {
     // create jwts
-    const accessToken = jwt.sign(
-      {
-        userInfo: {
-          email: foundUser.email,
-        },
-      },
-      process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: '10m' }
-    );
+    const accessToken = createJwtToken(foundUser.email);
 
-    const newRefreshToken = jwt.sign(
-      { email: foundUser.email },
-      process.env.REFRESH_TOKEN_SECRET as string,
-      { expiresIn: rememberMe ? '1d' : '30d' }
-    );
+    const newRefreshToken = createJwtToken(foundUser.email);
 
     const newRefreshTokenArr = !cookie?.jwt
       ? foundUser.refreshToken
@@ -68,10 +60,6 @@ const handleLogin = async (req: Request, res: Response) => {
   } else {
     res.sendStatus(401);
   }
-  res.json({
-    email,
-    password,
-  });
 };
 
 export default { handleLogin };
