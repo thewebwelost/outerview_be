@@ -10,12 +10,15 @@ export const getUserRepo = async () => {
 
 const getUser = async (req: Request, res: Response) => {
   if (!req.params.email) {
-    return res.status(400).json({ message: 'No user Id was provided' });
+    return res.status(400).json({ message: 'No user email was provided' });
   }
 
   try {
-    const user = await User.findOneBy({
-      email: req.params.email,
+    const repo = await getUserRepo();
+    const user = repo.findOne({
+      where: {
+        email: req.params.email,
+      },
     });
 
     if (!user) {

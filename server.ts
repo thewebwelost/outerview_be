@@ -9,6 +9,8 @@ import register from './routes/register';
 import auth from './routes/auth';
 import refresh from './routes/refresh';
 import logout from './routes/logout';
+import dashboard from './routes/dashboard';
+import authValidation from './middleware/authValidation';
 
 const PORT = process.env.APP_PORT || 8080;
 
@@ -29,6 +31,7 @@ app.use('/register', register);
 app.use('/auth', auth);
 app.use('/refresh', refresh);
 app.use('/logout', logout);
+app.use('/dashboard', authValidation, dashboard);
 
 app.all('*', (req, res) => {
   console.log('[Unknowr request]', req);

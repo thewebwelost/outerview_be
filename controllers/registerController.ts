@@ -4,7 +4,7 @@ import { controllerErrorHandler } from '../helpers/controllerError';
 import { getUserRepo } from './userController';
 
 const createUser = async (req: Request, res: Response) => {
-  const { username, email, password, rememberMe } = req.body;
+  const { username, email, password } = req.body;
 
   if (!username || !password || !email)
     return res
@@ -19,9 +19,8 @@ const createUser = async (req: Request, res: Response) => {
   if (duplicate) return res.sendStatus(409); // Conflict
 
   try {
-    // encrypting password
     const hashedPwd = await bcrypt.hash(password, 10);
-    // create and store new user
+
     const user = repo.create({
       username,
       email,

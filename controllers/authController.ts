@@ -1,19 +1,17 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { createJwtToken } from '../middleware/createJwtToken';
+import { createJwtToken } from '../helpers/createJwtToken';
 import { getUserRepo } from './userController';
 
 const handleLogin = async (req: Request, res: Response) => {
   const { email, password, rememberMe } = req.body;
-  const cookie = req.cookies;
+  const cookies = req.cookies;
 
   if (!email || !password) {
     res.status(400).json({ message: 'Name or password missing' });
   }
 
   const repo = await getUserRepo();
-
   const foundUser = await repo.findOne({
     where: { email },
   });
@@ -24,15 +22,23 @@ const handleLogin = async (req: Request, res: Response) => {
 
   if (match) {
     // create jwts
-    const accessToken = createJwtToken(foundUser.email);
+    const accessToken = createJwtToken(
+      { email: foundUser.email },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      '10m'
+    );
 
-    const newRefreshToken = createJwtToken(foundUser.email);
+    const newRefreshToken = createJwtToken(
+      { email: foundUser.email },
+      process.env.REFRESH_TOKEN_SECRET as string,
+      '1d'
+    );
 
-    const newRefreshTokenArr = !cookie?.jwt
+    const newRefreshTokenArr = !cookies?.jwt
       ? foundUser.refreshToken
-      : foundUser.refreshToken.filter((rt: string) => rt !== cookie.jwt);
+      : foundUser.refreshToken.filter((rt: string) => rt !== cookies.jwt);
 
-    if (cookie?.jwt) {
+    if (cookies?.jwt) {
       res.clearCookie('jwt', {
         httpOnly: true,
         secure: true,
@@ -43,14 +49,17 @@ const handleLogin = async (req: Request, res: Response) => {
     foundUser.refreshToken = [...newRefreshTokenArr, newRefreshToken];
     await foundUser.save();
 
+    const ms24h = 1000 * 60 * 60 * 24;
+
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
-      maxAge: 1000 * 60 * 60 * 24, // 24h
+      maxAge: rememberMe ? ms24h * 30 : ms24h,
     });
 
     res.json({
+      success: true,
       accessToken,
       user: {
         username: foundUser.username,

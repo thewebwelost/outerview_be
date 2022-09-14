@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
-import { AppDataSource } from '../data-source';
-import { User } from '../model/User';
+import { getUserRepo } from './userController';
 
 const handleLogout = async (req: Request, res: Response) => {
-  // Client should delete the accessToken as well
   const cookies = req.cookies;
   if (!cookies?.jwt) res.sendStatus(204);
   const refreshToken = cookies.jwt;
 
-  const foundUser = await AppDataSource.getRepository(User).findOne({
+  const repo = await getUserRepo();
+  const foundUser = await repo.findOne({
     where: { refreshToken },
   });
 
