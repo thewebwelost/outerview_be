@@ -9,29 +9,27 @@ export const getUserRepo = async () => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  if (!req.params.email) {
+  if (!req.body.email) {
     return res.status(400).json({ message: 'No user email was provided' });
   }
 
   try {
     const repo = await getUserRepo();
-    const user = repo.findOne({
+    const user = await repo.findOne({
       where: {
-        email: req.params.email,
+        email: req.body.email,
       },
     });
 
     if (!user) {
       return res
         .status(400)
-        .json({ message: `User ${req.params.id} not found` });
+        .json({ message: `User ${req.body.email} not found` });
     }
     return res.status(200).json(user);
   } catch (err) {
     controllerErrorHandler({ err, res });
   }
-
-  res.sendStatus(200); // TODO: everything to be cleaned
 };
 
 export default {

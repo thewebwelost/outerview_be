@@ -26,7 +26,6 @@ app.use(cors(corsOptions()));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// routing
 app.use('/register', register);
 app.use('/auth', auth);
 app.use('/refresh', refresh);

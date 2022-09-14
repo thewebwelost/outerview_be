@@ -10,20 +10,17 @@ const authValidation = (req: Request, res: Response, next: NextFunction) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  if (!token) {
-    return res.sendStatus(401);
-  }
+  if (!token) return res.sendStatus(401);
 
   verify(
     token,
     process.env.ACCESS_TOKEN_SECRET as string,
     async (err: any, decoded: any) => {
-      console.log('decoded', decoded);
       if (err) return res.sendStatus(403);
+      // cb after decoded
+      next();
     }
   );
-
-  next();
 };
 
 export default authValidation;
