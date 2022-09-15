@@ -49,13 +49,11 @@ const handleLogin = async (req: Request, res: Response) => {
     foundUser.refreshToken = [...newRefreshTokenArr, newRefreshToken];
     await foundUser.save();
 
-    const ms24h = 1000 * 60 * 60 * 24;
-
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
-      maxAge: rememberMe ? ms24h * 30 : ms24h,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
     });
 
     res.json({
