@@ -2,13 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 const authValidation = (req: Request, res: Response, next: NextFunction) => {
-  let token = null;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.sendStatus(401);
 
@@ -18,6 +13,7 @@ const authValidation = (req: Request, res: Response, next: NextFunction) => {
     async (err: any, decoded: any) => {
       if (err) return res.sendStatus(403);
       // cb after decoded
+      req.user = decoded;
       next();
     }
   );
