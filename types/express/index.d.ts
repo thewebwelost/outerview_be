@@ -5,7 +5,6 @@ declare global {
     export interface Request {
       user?: {
         email: string;
-        password: string;
       };
     }
   }

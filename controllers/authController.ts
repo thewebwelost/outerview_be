@@ -25,7 +25,7 @@ const handleLogin = async (req: Request, res: Response) => {
     const accessToken = createJwtToken(
       { email: foundUser.email },
       process.env.ACCESS_TOKEN_SECRET as string,
-      '1h'
+      '10m'
     );
 
     const newRefreshToken = createJwtToken(
