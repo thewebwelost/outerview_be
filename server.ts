@@ -5,33 +5,26 @@ import cookieParser from 'cookie-parser';
 import { AppDataSource } from './data-source';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
-import register from './routes/register';
-import auth from './routes/auth';
-import refresh from './routes/refresh';
-import logout from './routes/logout';
-import dashboard from './routes/dashboard';
-import authValidation from './middleware/authValidation';
+import { register, login, refresh, logout, dashboard } from './routes';
 
-const PORT = process.env.APP_PORT || 8080;
-
-AppDataSource.initialize()
-  .then(() => console.log('Connected to the database'))
-  .catch((error) => console.log(error));
+const PORT = process.env.BASE_PORT!;
 
 const app = express();
-
+// express middlewares
 app.use(cookieParser());
 app.use(credentials);
 app.use(cors(corsOptions()));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+// auth routes
 app.use('/register', register);
-app.use('/auth', auth);
+app.use('/login', login);
 app.use('/refresh', refresh);
 app.use('/logout', logout);
-app.use('/dashboard', authValidation, dashboard);
+// must be protected
+app.use('/dashboard', dashboard);
 
+// all unknown requests will error 404
 app.all('*', (req, res) => {
   console.log('[Unknowr request]', req);
   res.status(404).send('[server]: Unknown request!'); // TODO: deal with 404
@@ -43,4 +36,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send('[server]: Something broke!');
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// connect to DB and start the server
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Connected to the database');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((error) => console.log(error));

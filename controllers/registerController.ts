@@ -10,26 +10,27 @@ const createUser = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json({ message: 'Name, email or password is missing' });
-
+  // we check if user already exists
   const repo = await getUserRepo();
   const duplicate = await repo.findOne({
     where: { email },
   });
-
+  // send conflict error if user exists
   if (duplicate) return res.sendStatus(409); // Conflict
 
+  // otherwise create new user from provided data
   try {
     const hashedPwd = await bcrypt.hash(password, 10);
-
     const user = repo.create({
       username,
       email,
       password: hashedPwd,
     });
     await repo.save(user);
-
+    // send created user to client
     res.status(201).json({
       success: `User ${username} added`,
+      user,
     });
   } catch (err) {
     controllerErrorHandler({ err, res });

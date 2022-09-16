@@ -9,7 +9,7 @@ export const getUserRepo = async () => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  if (!req.user?.email) {
+  if (!req.body.email) {
     return res.status(400).json({ message: 'No user email was provided' });
   }
 
@@ -17,14 +17,14 @@ const getUser = async (req: Request, res: Response) => {
     const repo = await getUserRepo();
     const user = await repo.findOne({
       where: {
-        email: req.user?.email,
+        email: req.body.email,
       },
     });
 
     if (!user) {
       return res
         .status(400)
-        .json({ message: `User ${req.user?.email} not found` });
+        .json({ message: `User ${req.body.email} not found` });
     }
     return res.status(200).json(user);
   } catch (err) {
