@@ -8,7 +8,7 @@ const handleLogin = async (req: Request, res: Response) => {
   const cookies = req.cookies;
 
   if (!email || !password) {
-    res.status(400).json({ message: 'Name or password missing' });
+    return res.status(400).json({ message: 'Name or password missing' });
   }
   // find user in DB via email
   const repo = await getUserRepo();
@@ -22,21 +22,13 @@ const handleLogin = async (req: Request, res: Response) => {
   // if user was found and pass is matched issue access and refresh tokens
   if (match) {
     const accessToken = buildAccessToken(
-      {
-        email: foundUser.email,
-      },
-      {
-        expiresIn: '10m',
-      }
+      { email: foundUser.email },
+      { expiresIn: '10m' }
     );
 
     const newRefreshToken = buildRefreshToken(
-      {
-        email: foundUser.email,
-      },
-      {
-        expiresIn: '15d',
-      }
+      { email: foundUser.email },
+      { expiresIn: '15d' }
     );
 
     // if there is a jwt, delete it from DB
@@ -67,6 +59,7 @@ const handleLogin = async (req: Request, res: Response) => {
       success: true,
       accessToken,
       user: {
+        username: foundUser.username,
         email: foundUser.email,
       },
     });

@@ -6,6 +6,7 @@ import { AppDataSource } from './data-source';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
 import { register, login, refresh, logout, dashboard } from './routes';
+import verifyToken from './middleware/verifyAuthorization';
 
 const PORT = process.env.BASE_PORT!;
 
@@ -22,7 +23,7 @@ app.use('/login', login);
 app.use('/refresh', refresh);
 app.use('/logout', logout);
 // must be protected
-app.use('/dashboard', dashboard);
+app.use('/dashboard', verifyToken, dashboard);
 
 // all unknown requests will error 404
 app.all('*', (req, res) => {

@@ -4,7 +4,7 @@ import { getUserRepo } from './userController';
 const handleLogout = async (req: Request, res: Response) => {
   // check if jwt token exists
   const cookies = req.cookies;
-  if (!cookies?.jwt) res.sendStatus(204);
+  if (!cookies?.jwt) return res.sendStatus(204);
   const refreshToken = cookies.jwt;
   // get user by refresh token from cookie
   const repo = await getUserRepo();
