@@ -11,16 +11,15 @@ export default function verifyToken(
     const accessToken = authHeader?.split(' ')[1];
 
     if (accessToken && accessToken !== 'undefined') {
-      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-    } else {
-      return res.status(401).json({
-        error: 'No access token',
-      });
+      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string, () =>
+        next()
+      );
     }
-    next();
-  } catch (err) {
-    return res.status(401).json({
-      error: err,
+
+    return res.status(403).json({
+      error: 'ERROR: Could not connect to the protected route',
     });
+  } catch (error) {
+    return res.status(401).json({ error });
   }
 }

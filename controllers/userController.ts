@@ -22,9 +22,7 @@ const getUser = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: `User ${req.body.email} not found` });
+      return res.status(400).json({ message: 'User not found' });
     }
     return res.status(200).json(user);
   } catch (err) {

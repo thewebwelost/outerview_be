@@ -69,21 +69,13 @@ const handleRefreshToken = async (req: Request, res: Response) => {
       if (err || foundUser.email !== decoded.email) return res.sendStatus(403);
       // issue new tokens if everything is matched correctly
       const accessToken = buildAccessToken(
-        {
-          email: foundUser.email,
-        },
-        {
-          expiresIn: '10m',
-        }
+        { email: foundUser.email },
+        { expiresIn: '10m' }
       );
 
       const newRefreshToken = buildRefreshToken(
-        {
-          email: foundUser.email,
-        },
-        {
-          expiresIn: '15d',
-        }
+        { email: foundUser.email },
+        { expiresIn: '15d' }
       );
       // write new refresh token to db
       foundUser.refreshToken = [...newRefreshTokenArr, newRefreshToken];
