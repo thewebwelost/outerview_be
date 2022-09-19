@@ -11,9 +11,8 @@ export default function verifyToken(
     const accessToken = authHeader?.split(' ')[1];
 
     if (accessToken && accessToken !== 'undefined') {
-      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string, () =>
-        next()
-      );
+      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
+      return next();
     }
 
     return res.status(403).json({
