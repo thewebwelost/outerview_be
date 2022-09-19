@@ -24,13 +24,10 @@ app.use('/refresh', refresh);
 app.use('/logout', logout);
 // must be protected
 app.use('/dashboard', verifyToken, dashboard);
-
 // all unknown requests will error 404
 app.all('*', (req, res) => {
-  console.log('[Unknowr request]', req);
   res.status(404).send('[server]: Unknown request!'); // TODO: deal with 404
 });
-
 // error logging
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
