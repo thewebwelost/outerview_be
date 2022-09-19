@@ -12,11 +12,15 @@ export default function verifyToken(
 
     if (accessToken && accessToken !== 'undefined') {
       jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-      next();
+    } else {
+      return res.status(401).json({
+        error: 'No access token',
+      });
     }
-  } catch {
+    next();
+  } catch (err) {
     return res.status(401).json({
-      error: new Error('Invalid access token'),
+      error: err,
     });
   }
 }
