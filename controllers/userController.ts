@@ -9,11 +9,6 @@ export const getUserRepo = async () => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
-
-  console.log('[cookies.jwt]', cookies.jwt);
-
   if (!req.body.email) {
     return res.status(400).json({ message: 'No user email was provided' });
   }

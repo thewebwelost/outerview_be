@@ -8,17 +8,14 @@ export default function verifyToken(
 ) {
   try {
     const authHeader = req.headers['authorization'];
-    const accessToken = authHeader?.split(' ')[0];
-    let decodedUser;
+    const accessToken = authHeader?.split(' ')[1];
+
     if (accessToken && accessToken !== 'undefined') {
-      decodedUser = jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET as string
-      );
+      jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
+      next();
     }
-    next();
   } catch {
-    res.status(401).json({
+    return res.status(401).json({
       error: new Error('Invalid access token'),
     });
   }

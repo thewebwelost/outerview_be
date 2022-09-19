@@ -9,7 +9,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   // sent inside jwt cookie
   const cookies = req.cookies;
   // request gets declined if no cookie found
-  if (!cookies?.jwt) res.sendStatus(401);
+  if (!cookies?.jwt) return res.sendStatus(401);
   // we store old token in memory and clear cookie
   const refreshToken = cookies.jwt;
   res.clearCookie('jwt', {

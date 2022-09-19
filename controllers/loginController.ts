@@ -4,7 +4,7 @@ import { getUserRepo } from './userController';
 import { buildAccessToken, buildRefreshToken } from '../helpers/buildTokens';
 
 const handleLogin = async (req: Request, res: Response) => {
-  const { email, password, rememberMe } = req.body;
+  const { email, password } = req.body;
   const cookies = req.cookies;
 
   if (!email || !password) {
