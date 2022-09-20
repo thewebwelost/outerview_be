@@ -7,5 +7,11 @@ declare global {
         email: string;
       };
     }
+    export interface Response {
+      user?: {
+        email: string;
+        [key: string]: string;
+      };
+    }
   }
 }
