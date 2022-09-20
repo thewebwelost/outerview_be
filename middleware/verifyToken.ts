@@ -15,6 +15,11 @@ export default function verifyToken(
         accessToken,
         process.env.ACCESS_TOKEN_SECRET as string,
         (err: any, decoded: any) => {
+          if (err)
+            return res.status(401).json({
+              isTokenInvalid: true,
+              message: err.message,
+            });
           req.user = decoded;
           next();
         }
