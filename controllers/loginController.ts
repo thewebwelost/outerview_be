@@ -45,7 +45,7 @@ const handleLogin = async (req: Request, res: Response) => {
     }
     // write new jwt to db
     foundUser.refreshToken = [newRefreshToken, ...newRefreshTokenArr];
-    foundUser.refreshToken.length = 5;
+
     await foundUser.save();
     // send new jwt with secure cookie
     res.cookie('jwt', newRefreshToken, {

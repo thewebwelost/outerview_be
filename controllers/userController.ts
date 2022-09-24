@@ -9,7 +9,6 @@ export const getUserRepo = async () => {
 };
 
 const getUser = async (req: Request, res: Response) => {
-  console.log('req.user.email', req.user?.email);
   if (!req.user?.email) {
     return res.status(400).json({ message: 'No user email was provided' });
   }

@@ -10,7 +10,7 @@ export default function verifyToken(
     const authHeader = req.headers['authorization'];
     const accessToken = authHeader?.split(' ')[1];
 
-    if (accessToken && accessToken !== 'undefined') {
+    if (accessToken && accessToken !== 'undefined' && accessToken !== 'null') {
       jwt.verify(
         accessToken,
         process.env.ACCESS_TOKEN_SECRET as string,
