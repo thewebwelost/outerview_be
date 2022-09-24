@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { ArrayContains } from 'typeorm';
 import { buildAccessToken, buildRefreshToken } from '../helpers/buildTokens';
 import { getUserRepo } from './userController';
 
@@ -21,7 +22,9 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   // we need to find user in our DB by old token
   const repo = await getUserRepo();
   const foundUser = await repo.findOne({
-    where: { refreshToken },
+    where: {
+      refreshToken: ArrayContains(['refreshToken']),
+    },
   });
 
   // if there is no user found by token, it is potentially
