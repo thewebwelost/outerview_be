@@ -4,8 +4,11 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
+  OneToMany,
+  JoinTable,
 } from 'typeorm';
 import { Application } from './Application';
+import { Contact } from './Contact';
 
 @Entity('events')
 export class Event extends BaseEntity {
@@ -27,7 +30,8 @@ export class Event extends BaseEntity {
   @Column()
   date!: Date;
 
-  @Column({ type: 'int', array: true })
+  @OneToMany(() => Contact, (contact) => contact.event)
+  @JoinTable()
   interviewers!: number[];
 
   @Column()

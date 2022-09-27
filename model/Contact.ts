@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Company } from './Company';
 import { Link } from './Link';
+import { Event } from './Event';
 
 @Entity('contacts')
 export class Contact extends BaseEntity {
@@ -17,6 +18,9 @@ export class Contact extends BaseEntity {
 
   @ManyToOne(() => Company, (company) => company.contact)
   company!: Company;
+
+  @ManyToOne(() => Event, (event) => event.interviewers)
+  event!: Event;
 
   @Column()
   name!: string;
