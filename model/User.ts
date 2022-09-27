@@ -5,7 +5,11 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinTable,
 } from 'typeorm';
+import { Application } from './Application';
+import { Profile } from './Profile';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -32,10 +36,14 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
-  // OBVIOUSLY I NEED A RELATION HERE
-  @Column({ type: 'int', array: true, nullable: true })
-  profiles: number[] | undefined;
 
-  @Column({ type: 'int', array: true, nullable: true })
-  applications: number[] | undefined;
+  @OneToMany(() => Profile, (profile) => profile.user)
+  @JoinTable()
+  profiles: Profile[] | undefined;
+
+  @OneToMany(() => Application, (application) => application.user, {
+    cascade: true,
+  })
+  @JoinTable()
+  applications: Application[] | undefined;
 }

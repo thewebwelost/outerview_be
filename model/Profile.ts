@@ -1,12 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+} from 'typeorm';
+import { User } from './User';
 
 @Entity('profiles')
 export class Profile extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  user!: number; // relation to user
+  @ManyToOne(() => User, (user) => user.profiles, { onDelete: 'CASCADE' })
+  user!: User;
 
   @Column()
   name!: string;
