@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { controllerErrorHandler } from '../../helpers/controllerError';
-import { getUserRepo } from '../dashboardController';
+import { AppDataSource } from '../../data-source';
+import { User } from '../../model/User';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -11,7 +12,7 @@ const createUser = async (req: Request, res: Response) => {
       .status(400)
       .json({ message: 'Name, email or password is missing' });
   // we check if user already exists
-  const repo = await getUserRepo();
+  const repo = await AppDataSource.getRepository(User);
   const duplicate = await repo.findOne({
     where: { email },
   });

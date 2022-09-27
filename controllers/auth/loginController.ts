@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { getUserRepo } from '../dashboardController';
 import { buildAccessToken, buildRefreshToken } from '../../helpers/buildTokens';
+import { AppDataSource } from '../../data-source';
+import { User } from '../../model/User';
 
 const handleLogin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -11,7 +12,7 @@ const handleLogin = async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'Name or password missing' });
   }
   // find user in DB via email
-  const repo = await getUserRepo();
+  const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
     where: { email },
   });

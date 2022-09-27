@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { ArrayContains } from 'typeorm';
+import { AppDataSource } from '../../data-source';
 import { buildAccessToken, buildRefreshToken } from '../../helpers/buildTokens';
-import { getUserRepo } from '../dashboardController';
+import { User } from '../../model/User';
 
 const handleRefreshToken = async (req: Request, res: Response) => {
   // user asks to refresh expired access token
@@ -21,7 +22,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   });
 
   // we need to find user in our DB by old token
-  const repo = await getUserRepo();
+  const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
     where: {
       refreshToken: ArrayContains([refreshToken]),
@@ -39,7 +40,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
       async (err: any, decoded: any) => {
         if (err) return res.sendStatus(403);
 
-        const repo = await getUserRepo();
+        const repo = await AppDataSource.getRepository(User);
         const fraudUser = await repo.findOne({
           where: { email: decoded.email },
         });

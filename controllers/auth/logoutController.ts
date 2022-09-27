@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { getUserRepo } from '../dashboardController';
+import { AppDataSource } from '../../data-source';
+import { User } from '../../model/User';
 
 const handleLogout = async (req: Request, res: Response) => {
   // check if jwt token exists
@@ -7,7 +8,7 @@ const handleLogout = async (req: Request, res: Response) => {
   if (!cookies?.jwt) return res.sendStatus(204);
   const refreshToken = cookies.jwt;
   // get user by refresh token from cookie
-  const repo = await getUserRepo();
+  const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
     where: { refreshToken },
   });
