@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { User } from '../model/User';
 import { controllerErrorHandler } from '../helpers/controllerError';
-import { Application } from '../model/Application';
 import { getProfiles } from '../features/profiles';
-// import { getApplications } from '../features/applications';
+import { getApplications } from '../features/applications';
 
 const getDashboard = async (req: Request, res: Response) => {
   if (!req.user?.email) {
@@ -22,15 +21,13 @@ const getDashboard = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    // fetch profiles from db
     const profiles = getProfiles(user.id) || [];
-    // const applications = getApplications(user.id) || [];
+    const applications = getApplications(user.id) || [];
 
-    // fullfill user with db data before responding
     return res.status(200).json({
       ...user,
       profiles,
-      // applications,
+      applications,
     });
   } catch (err) {
     controllerErrorHandler({ err, res });
