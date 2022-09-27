@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { getUserRepo } from './userController';
+import { getUserRepo } from './dashboardController';
 import { buildAccessToken, buildRefreshToken } from '../helpers/buildTokens';
 
 const handleLogin = async (req: Request, res: Response) => {
