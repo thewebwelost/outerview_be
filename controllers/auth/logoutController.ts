@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserRepo } from './dashboardController';
+import { getUserRepo } from '../dashboardController';
 
 const handleLogout = async (req: Request, res: Response) => {
   // check if jwt token exists

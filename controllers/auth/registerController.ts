@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { controllerErrorHandler } from '../helpers/controllerError';
-import { getUserRepo } from './dashboardController';
+import { controllerErrorHandler } from '../../helpers/controllerError';
+import { getUserRepo } from '../dashboardController';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;

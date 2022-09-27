@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { ArrayContains } from 'typeorm';
-import { buildAccessToken, buildRefreshToken } from '../helpers/buildTokens';
-import { getUserRepo } from './dashboardController';
+import { buildAccessToken, buildRefreshToken } from '../../helpers/buildTokens';
+import { getUserRepo } from '../dashboardController';
 
 const handleRefreshToken = async (req: Request, res: Response) => {
   // user asks to refresh expired access token
