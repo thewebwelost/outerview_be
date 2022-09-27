@@ -1,12 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  OneToMany,
+  JoinTable,
+} from 'typeorm';
+import { Company } from './Company';
+import { Link } from './Link';
 
 @Entity('contacts')
 export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  companyId!: number;
+  @ManyToOne(() => Company, (company) => company.contact)
+  company!: Company;
 
   @Column()
   name!: string;
@@ -17,6 +27,7 @@ export class Contact extends BaseEntity {
   @Column()
   email!: string;
 
-  @Column({ type: 'int', array: true })
+  @OneToMany(() => Link, (link) => link.contact)
+  @JoinTable()
   links!: number[];
 }

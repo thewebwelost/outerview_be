@@ -4,8 +4,10 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  JoinTable,
 } from 'typeorm';
 import { Application } from './Application';
+import { Contact } from './Contact';
 import { Job } from './Job';
 
 @Entity('companies')
@@ -34,9 +36,11 @@ export class Company extends BaseEntity {
   @Column('simple-array')
   tech!: string[];
 
-  @Column({ type: 'int', array: true })
-  contact!: number[];
+  @OneToMany(() => Contact, (contact) => contact.company)
+  @JoinTable()
+  contact!: Contact;
 
   @OneToMany(() => Job, (job) => job.company)
+  @JoinTable()
   job!: Job[];
 }

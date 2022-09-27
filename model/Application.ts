@@ -7,7 +7,6 @@ import {
   OneToOne,
   JoinTable,
 } from 'typeorm';
-import { Company } from './Company';
 import { Job } from './Job';
 import { User } from './User';
 

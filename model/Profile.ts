@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Education } from './Education';
 import { Experience } from './Experience';
+import { Link } from './Link';
 import { User } from './User';
 
 @Entity('profiles')
@@ -63,6 +64,8 @@ export class Profile extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   website?: string;
 
-  @Column({ type: 'int', array: true, nullable: true })
+  // TODO: Links type: SOCIAL
+  @OneToMany(() => Link, (link) => link.profile)
+  @JoinTable()
   socials?: number[];
 }
