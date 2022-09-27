@@ -1,12 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
+import { Application } from './Application';
+import { Job } from './Job';
 
 @Entity('companies')
 export class Company extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
-
-  @Column()
-  user!: number; // relation to user
 
   @Column()
   name!: string;
@@ -31,4 +36,7 @@ export class Company extends BaseEntity {
 
   @Column({ type: 'int', array: true })
   contact!: number[];
+
+  @OneToMany(() => Job, (job) => job.company)
+  job!: Job[];
 }
