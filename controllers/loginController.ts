@@ -23,12 +23,12 @@ const handleLogin = async (req: Request, res: Response) => {
   if (match) {
     const accessToken = buildAccessToken(
       { email: foundUser.email },
-      { expiresIn: '10m' }
+      { expiresIn: '10s' }
     );
 
     const newRefreshToken = buildRefreshToken(
       { email: foundUser.email },
-      { expiresIn: '15d' }
+      { expiresIn: '15s' }
     );
 
     // if there is a jwt, delete it from DB

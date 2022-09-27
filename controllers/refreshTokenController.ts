@@ -10,6 +10,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   // sent inside jwt cookie
   const cookies = req.cookies;
   // request gets declined if no cookie found
+  console.log('cookies', req);
   if (!cookies?.jwt) return res.sendStatus(401);
   // we store old token in memory and clear cookie
   const refreshToken = cookies.jwt;
@@ -23,7 +24,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   const repo = await getUserRepo();
   const foundUser = await repo.findOne({
     where: {
-      refreshToken: ArrayContains(['refreshToken']),
+      refreshToken: ArrayContains([refreshToken]),
     },
   });
 
@@ -73,12 +74,12 @@ const handleRefreshToken = async (req: Request, res: Response) => {
       // issue new tokens if everything is matched correctly
       const accessToken = buildAccessToken(
         { email: foundUser.email },
-        { expiresIn: '10m' }
+        { expiresIn: '10s' }
       );
 
       const newRefreshToken = buildRefreshToken(
         { email: foundUser.email },
-        { expiresIn: '15d' }
+        { expiresIn: '15s' }
       );
       // write new refresh token to db
       foundUser.refreshToken = [...newRefreshTokenArr, newRefreshToken];
