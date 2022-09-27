@@ -23,7 +23,7 @@ export default function verifyToken(
       return;
     }
 
-    return res.status(403).json({
+    return res.status(401).json({
       error: 'ERROR: Could not connect to the protected route',
     });
   } catch (error) {

@@ -51,8 +51,8 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         }
       }
     );
-    // we exit with 403 status error and will ask user to log in again
-    return res.sendStatus(403);
+    // we exit with 401 status error and will ask user to log in again
+    return res.sendStatus(401);
   }
 
   // when we find user with issued token we delete the old token from DB
