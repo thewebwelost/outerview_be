@@ -1,14 +1,15 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
   BaseEntity,
   ManyToOne,
   OneToOne,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Job } from './Job';
 import { User } from './User';
+import { Event } from './Event';
 
 @Entity('applications')
 export class Application extends BaseEntity {
@@ -22,6 +23,7 @@ export class Application extends BaseEntity {
   @JoinTable()
   job!: Job[];
 
-  @Column({ type: 'int', array: true })
-  events: number[] | undefined;
+  @OneToMany(() => Event, (event) => event.application)
+  @JoinTable()
+  events?: Event[];
 }

@@ -1,12 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+} from 'typeorm';
+import { Application } from './Application';
 
 @Entity('events')
 export class Event extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  application!: number; // relation to application
+  @ManyToOne(() => Application, (application) => application.events)
+  application!: Application;
 
   @Column()
   title!: string;
@@ -15,7 +22,7 @@ export class Event extends BaseEntity {
   role!: string;
 
   @Column()
-  step!: string;
+  step!: string; // TODO: define enum
 
   @Column()
   date!: Date;
