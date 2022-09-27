@@ -8,18 +8,20 @@ export const getUserRepo = async () => {
   return repo;
 };
 
-const getUser = async (req: Request, res: Response) => {
+const getUserByEmail = async (email: string) => {
+  const repo = await getUserRepo();
+  const user = await repo.findOneBy({ email });
+
+  return user;
+};
+
+const getDashboard = async (req: Request, res: Response) => {
   if (!req.user?.email) {
     return res.status(400).json({ message: 'No user email was provided' });
   }
 
   try {
-    const repo = await getUserRepo();
-    const user = await repo.findOne({
-      where: {
-        email: req.user?.email,
-      },
-    });
+    const user = await getUserByEmail(req.user?.email);
 
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
@@ -31,5 +33,5 @@ const getUser = async (req: Request, res: Response) => {
 };
 
 export default {
-  getUser,
+  getDashboard,
 };

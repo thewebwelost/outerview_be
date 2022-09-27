@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import userController from '../controllers/userController';
+import dashboardController from '../controllers/dashboardController';
 
-router.get('/', userController.getUser);
+router.get('/', dashboardController.getDashboard);
 
 export default router;
