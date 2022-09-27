@@ -2,6 +2,9 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { User } from '../model/User';
 import { controllerErrorHandler } from '../helpers/controllerError';
+import { Application } from '../model/Application';
+import { getProfiles } from '../features/profiles';
+// import { getApplications } from '../features/applications';
 
 const getDashboard = async (req: Request, res: Response) => {
   if (!req.user?.email) {
@@ -20,14 +23,14 @@ const getDashboard = async (req: Request, res: Response) => {
     }
 
     // fetch profiles from db
-
-    // fetch applications from db
+    const profiles = getProfiles(user.id) || [];
+    // const applications = getApplications(user.id) || [];
 
     // fullfill user with db data before responding
     return res.status(200).json({
       ...user,
-      profiles: [],
-      applications: [],
+      profiles,
+      // applications,
     });
   } catch (err) {
     controllerErrorHandler({ err, res });

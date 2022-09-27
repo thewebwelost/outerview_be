@@ -3,7 +3,7 @@ import { Profile } from '../model/Profile';
 
 export interface IProfile {}
 
-async function createProfile({
+export async function createProfile({
   profileData,
   userId,
 }: {
@@ -22,7 +22,7 @@ async function createProfile({
   }
 }
 
-async function getProfile(id: number) {
+export async function getProfile(id: number) {
   try {
     const repo = await AppDataSource.getRepository(Profile);
     const profile = repo.findOneBy({ id });
@@ -32,7 +32,7 @@ async function getProfile(id: number) {
   }
 }
 
-async function getProfiles(userId: number) {
+export async function getProfiles(userId: number) {
   try {
     const repo = await AppDataSource.getRepository(Profile);
     const profiles = repo.find({
@@ -46,7 +46,7 @@ async function getProfiles(userId: number) {
   }
 }
 
-async function updateProfile({
+export async function updateProfile({
   profileData,
   profileId,
 }: {
@@ -59,10 +59,3 @@ async function updateProfile({
     console.error(err);
   }
 }
-
-export default {
-  createProfile,
-  getProfile,
-  getProfiles,
-  updateProfile,
-};
