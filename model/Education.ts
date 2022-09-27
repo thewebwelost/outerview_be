@@ -1,11 +1,20 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Profile } from './Profile';
 
 @Entity('education')
 export class Education extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @ManyToOne(() => Profile, (profile) => profile.education, {
+    onDelete: 'CASCADE',
+  })
   profile!: number;
 
   @Column()

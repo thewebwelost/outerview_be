@@ -16,19 +16,19 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: 'varchar', array: true, default: [] })
+  @Column({ type: 'varchar', array: true, default: [] }) // TODO: move to own table
   refreshToken!: string[];
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string | undefined;
 
-  @Column()
+  @Column() // TODO: move to own table
   username!: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true }) // TODO: move to own table
   email!: string;
 
-  @Column()
+  @Column() // TODO: move to own table
   password!: string;
 
   @CreateDateColumn()

@@ -4,7 +4,11 @@ import {
   Column,
   BaseEntity,
   ManyToOne,
+  OneToMany,
+  JoinTable,
 } from 'typeorm';
+import { Education } from './Education';
+import { Experience } from './Experience';
 import { User } from './User';
 
 @Entity('profiles')
@@ -33,10 +37,12 @@ export class Profile extends BaseEntity {
   @Column({ type: 'simple-array', nullable: true })
   softSkills?: string[];
 
-  @Column({ type: 'int', array: true, nullable: true })
-  experience?: number[];
+  @OneToMany(() => Experience, (experience) => experience.profile)
+  @JoinTable()
+  experience?: Experience[];
 
-  @Column({ type: 'int', array: true, nullable: true })
+  @OneToMany(() => Education, (education) => education.profile)
+  @JoinTable()
   education?: number[];
 
   @Column('simple-array')
