@@ -21,6 +21,7 @@ const getDashboard = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
+    // PROBABLY SLOVED BY DB RELATIONS
     const profiles = getProfiles(user.id) || [];
     const applications = getApplications(user.id) || [];
 

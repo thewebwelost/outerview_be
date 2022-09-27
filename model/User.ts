@@ -32,7 +32,7 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt!: Date;
-
+  // OBVIOUSLY I NEED A RELATION HERE
   @Column({ type: 'int', array: true, nullable: true })
   profiles: number[] | undefined;
 
