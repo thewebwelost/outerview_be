@@ -18,7 +18,17 @@ const getDashboard = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-    return res.status(200).json(user);
+
+    // fetch profiles from db
+
+    // fetch applications from db
+
+    // fullfill user with db data before responding
+    return res.status(200).json({
+      ...user,
+      profiles: [],
+      applications: [],
+    });
   } catch (err) {
     controllerErrorHandler({ err, res });
   }
