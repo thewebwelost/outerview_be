@@ -5,7 +5,6 @@ import {
   BaseEntity,
   ManyToOne,
 } from 'typeorm';
-import { Company } from './Company';
 import { Contact } from './Contact';
 import { Profile } from './Profile';
 

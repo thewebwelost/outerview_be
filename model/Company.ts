@@ -6,7 +6,6 @@ import {
   OneToMany,
   JoinTable,
 } from 'typeorm';
-import { Application } from './Application';
 import { Contact } from './Contact';
 import { Job } from './Job';
 
