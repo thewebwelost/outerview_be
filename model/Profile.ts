@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import { Education } from './Education';
 import { Experience } from './Experience';
-import { Link } from './Link';
 import { Social } from './Social';
 import { User } from './User';
 

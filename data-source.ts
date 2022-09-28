@@ -10,6 +10,7 @@ import { Job } from './model/Job';
 import { Link } from './model/Link';
 import { Profile } from './model/Profile';
 import { User } from './model/User';
+import { Social } from './model/Social';
 
 const dbport = process.env.DB_PORT!;
 const username = process.env.DB_USER!;
@@ -38,6 +39,7 @@ export const AppDataSource = new DataSource({
     Link,
     Profile,
     User,
+    Social,
   ],
   subscribers: [],
   migrations: [],
