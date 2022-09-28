@@ -11,7 +11,6 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   // sent inside jwt cookie
   const cookies = req.cookies;
   // request gets declined if no cookie found
-  console.log('cookies', req);
   if (!cookies?.jwt) return res.sendStatus(401);
   // we store old token in memory and clear cookie
   const refreshToken = cookies.jwt;
@@ -23,9 +22,17 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
   // we need to find user in our DB by old token
   const repo = await AppDataSource.getRepository(User);
+  // const foundUser = await repo
+  //   .createQueryBuilder('user')
+  //   .leftJoinAndSelect('user.refreshToken', 'token')
+  //   .where('token @> :refreshToken', { refreshToken: [refreshToken] })
+  //   .getOne();
+
   const foundUser = await repo.findOne({
     where: {
-      refreshToken: ArrayContains([refreshToken]),
+      userCredentials: {
+        refreshToken: ArrayContains([refreshToken]),
+      },
     },
   });
 
@@ -42,12 +49,22 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
         const repo = await AppDataSource.getRepository(User);
         const fraudUser = await repo.findOne({
-          where: { email: decoded.email },
+          where: {
+            userCredentials: {
+              email: decoded.email,
+            },
+          },
         });
+
+        // const fraudUser = await repo
+        //   .createQueryBuilder('fraudUser')
+        //   .leftJoinAndSelect('fraudUser.userCredentials', 'credentials')
+        //   .where('credentials.email = :email', { email: decoded.email })
+        //   .getOne();
 
         // and then delete all tokens to prevent fraud
         if (fraudUser) {
-          fraudUser.refreshToken = [];
+          fraudUser.userCredentials.refreshToken = [];
           await fraudUser.save();
         }
       }
@@ -58,8 +75,8 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
   // when we find user with issued token we delete the old token from DB
   const newRefreshTokenArr =
-    foundUser.refreshToken &&
-    foundUser.refreshToken.filter((rt) => rt !== refreshToken);
+    foundUser.userCredentials.refreshToken &&
+    foundUser.userCredentials.refreshToken.filter((rt) => rt !== refreshToken);
 
   jwt.verify(
     refreshToken,
@@ -67,23 +84,27 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     // TODO: fix types
     async (err: any, decoded: any) => {
       if (err) {
-        foundUser.refreshToken = [...newRefreshTokenArr];
+        foundUser.userCredentials.refreshToken = [...newRefreshTokenArr];
         await foundUser.save();
       }
 
-      if (err || foundUser.email !== decoded.email) return res.sendStatus(403);
+      if (err || foundUser.userCredentials.email !== decoded.email)
+        return res.sendStatus(403);
       // issue new tokens if everything is matched correctly
       const accessToken = buildAccessToken(
-        { email: foundUser.email },
+        { email: foundUser.userCredentials.email },
         { expiresIn: '10m' }
       );
 
       const newRefreshToken = buildRefreshToken(
-        { email: foundUser.email },
+        { email: foundUser.userCredentials.email },
         { expiresIn: '30d' }
       );
       // write new refresh token to db
-      foundUser.refreshToken = [...newRefreshTokenArr, newRefreshToken];
+      foundUser.userCredentials.refreshToken = [
+        ...newRefreshTokenArr,
+        newRefreshToken,
+      ];
       await foundUser.save();
       // return jwt in secure cookie
       res.cookie('jwt', newRefreshToken, {

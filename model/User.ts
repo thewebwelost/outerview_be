@@ -20,8 +20,9 @@ export class User extends BaseEntity {
 
   @OneToOne(() => UserCredentials, (userCredentials) => userCredentials.user, {
     cascade: true,
+    eager: true,
   })
-  @JoinTable()
+  @JoinTable({ name: 'credentials' })
   userCredentials!: UserCredentials;
 
   @Column({ type: 'varchar', nullable: true })

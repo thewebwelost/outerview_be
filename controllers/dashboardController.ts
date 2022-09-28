@@ -13,8 +13,8 @@ const getDashboard = async (req: Request, res: Response) => {
   try {
     const repo = await AppDataSource.getRepository(User);
     const user = await repo.findOne({
-      select: ['id', 'avatar', 'username', 'email', 'profiles', 'applications'],
-      where: { email: req.user?.email },
+      select: ['id', 'avatar', 'userCredentials', 'profiles', 'applications'],
+      where: { userCredentials: { email: req.user?.email } },
     });
 
     if (!user) {

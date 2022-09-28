@@ -14,14 +14,14 @@ const createUser = async (req: Request, res: Response) => {
       .json({ message: 'Name, email or password is missing' });
   // we check if user already exists
   const repo = await AppDataSource.getRepository(User);
-  // const duplicate = await repo.findOne({
-  //   relations: { email },
-  // });
-  const duplicate = await repo
-    .createQueryBuilder('duplicate')
-    .leftJoinAndSelect('duplicate.userCredentials', 'credentials')
-    .where('credentials.email = :email', { email })
-    .getOne();
+  const duplicate = await repo.findOne({
+    where: { userCredentials: { email } },
+  });
+  // const duplicate = await repo
+  //   .createQueryBuilder('duplicate')
+  //   .leftJoinAndSelect('duplicate.userCredentials', 'credentials')
+  //   .where('credentials.email = :email', { email })
+  //   .getOne();
   // send conflict error if user exists
   if (duplicate) return res.sendStatus(409); // Conflict
 
