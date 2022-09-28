@@ -13,17 +13,18 @@ import { User } from './model/User';
 import { Social } from './model/Social';
 import { UserCredentials } from './model/UserCredentials';
 
-const dbport = process.env.DB_PORT!;
-const username = process.env.DB_USER!;
-const password = process.env.DB_PASSWORD!;
-const database = process.env.DB_NAME!;
+const dbport = process.env.DB_PORT as string;
+const host = process.env.DB_HOST as string;
+const username = process.env.DB_USER as string;
+const password = process.env.DB_PASSWORD as string;
+const database = process.env.DB_NAME as string;
 
-const port: number = parseInt(<string>dbport, 10);
+const port: number = parseInt(dbport, 10);
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: port,
+  host,
+  port,
   username,
   password,
   database,
