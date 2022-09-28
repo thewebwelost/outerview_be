@@ -7,29 +7,24 @@ import {
   UpdateDateColumn,
   OneToMany,
   JoinTable,
+  OneToOne,
 } from 'typeorm';
 import { Application } from './Application';
 import { Profile } from './Profile';
+import { UserCredentials } from './UserCredentials';
 
 @Entity('users')
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: 'varchar', array: true, default: [] }) // TODO: move to own table
-  refreshToken!: string[];
+  @OneToOne(() => UserCredentials, (userCredentials) => userCredentials.user, {
+    onDelete: 'CASCADE',
+  })
+  userCredentials!: UserCredentials;
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string | undefined;
-
-  @Column() // TODO: move to own table
-  username!: string;
-
-  @Column({ unique: true }) // TODO: move to own table
-  email!: string;
-
-  @Column() // TODO: move to own table
-  password!: string;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -42,7 +37,7 @@ export class User extends BaseEntity {
   profiles: Profile[] | undefined;
 
   @OneToMany(() => Application, (application) => application.user, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   applications: Application[] | undefined;

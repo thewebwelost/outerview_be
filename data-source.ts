@@ -11,6 +11,7 @@ import { Link } from './model/Link';
 import { Profile } from './model/Profile';
 import { User } from './model/User';
 import { Social } from './model/Social';
+import { UserCredentials } from './model/UserCredentials';
 
 const dbport = process.env.DB_PORT!;
 const username = process.env.DB_USER!;
@@ -40,6 +41,7 @@ export const AppDataSource = new DataSource({
     Profile,
     User,
     Social,
+    UserCredentials,
   ],
   subscribers: [],
   migrations: [],
