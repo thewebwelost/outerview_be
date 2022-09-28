@@ -10,6 +10,7 @@ import {
 import { Education } from './Education';
 import { Experience } from './Experience';
 import { Link } from './Link';
+import { Social } from './Social';
 import { User } from './User';
 
 @Entity('profiles')
@@ -44,7 +45,7 @@ export class Profile extends BaseEntity {
 
   @OneToMany(() => Education, (education) => education.profile)
   @JoinTable()
-  education?: number[];
+  education?: Education[];
 
   @Column('simple-array')
   achievements?: string[];
@@ -64,8 +65,7 @@ export class Profile extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   website?: string;
 
-  // TODO: Links type: SOCIAL
-  @OneToMany(() => Link, (link) => link.profile)
+  @OneToMany(() => Social, (social) => social.profile)
   @JoinTable()
-  socials?: number[];
+  socials?: Social[];
 }
