@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { controllerErrorHandler } from '../../helpers/controllerError';
 import { AppDataSource } from '../../data-source';
 import { User } from '../../model/User';
+import { UserCredentials } from '../../model/UserCredentials';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -13,20 +14,34 @@ const createUser = async (req: Request, res: Response) => {
       .json({ message: 'Name, email or password is missing' });
   // we check if user already exists
   const repo = await AppDataSource.getRepository(User);
-  const duplicate = await repo.findOne({
-    where: { email },
-  });
+  // const duplicate = await repo.findOne({
+  //   relations: { email },
+  // });
+  const duplicate = await repo
+    .createQueryBuilder('duplicate')
+    .leftJoinAndSelect('duplicate.userCredentials', 'credentials')
+    .where('credentials.email = :email', { email })
+    .getOne();
   // send conflict error if user exists
   if (duplicate) return res.sendStatus(409); // Conflict
 
   // otherwise create new user from provided data
   try {
     const hashedPwd = await bcrypt.hash(password, 10);
-    const user = repo.create({
-      username,
-      email,
-      password: hashedPwd,
-    });
+
+    const creds = new UserCredentials();
+    creds.username = username;
+    creds.email = email;
+    creds.password = hashedPwd;
+
+    const user = new User();
+    user.userCredentials = creds;
+
+    // const user = repo.create({
+    //   username,
+    //   email,
+    //   password: hashedPwd,
+    // });
     await repo.save(user);
     // send created user to client
     res.status(201).json({

@@ -19,8 +19,9 @@ export class User extends BaseEntity {
   id!: number;
 
   @OneToOne(() => UserCredentials, (userCredentials) => userCredentials.user, {
-    onDelete: 'CASCADE',
+    cascade: true,
   })
+  @JoinTable()
   userCredentials!: UserCredentials;
 
   @Column({ type: 'varchar', nullable: true })
