@@ -14,31 +14,28 @@ const handleLogin = async (req: Request, res: Response) => {
   // find user in DB via email
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
-    where: { userCredentials: { email } },
+    where: { credentials: { email } },
   });
 
   if (!foundUser) return res.sendStatus(401);
 
-  const match = await bcrypt.compare(
-    password,
-    foundUser.userCredentials.password
-  );
+  const match = await bcrypt.compare(password, foundUser.credentials.password);
   // if user was found and pass is matched issue access and refresh tokens
   if (match) {
     const accessToken = buildAccessToken(
-      { email: foundUser.userCredentials.email },
+      { email: foundUser.credentials.email },
       { expiresIn: '10m' }
     );
 
     const newRefreshToken = buildRefreshToken(
-      { email: foundUser.userCredentials.email },
+      { email: foundUser.credentials.email },
       { expiresIn: '30d' }
     );
 
     // if there is a jwt, delete it from DB
     const newRefreshTokenArr = !cookies?.jwt
-      ? foundUser.userCredentials.refreshToken
-      : foundUser.userCredentials.refreshToken.filter(
+      ? foundUser.credentials.refreshToken
+      : foundUser.credentials.refreshToken.filter(
           (rt: string) => rt !== cookies.jwt
         );
     // clear existing jwt cookie
@@ -50,7 +47,7 @@ const handleLogin = async (req: Request, res: Response) => {
       });
     }
     // write new jwt to db
-    foundUser.userCredentials.refreshToken = [
+    foundUser.credentials.refreshToken = [
       newRefreshToken,
       ...newRefreshTokenArr,
     ];
@@ -68,8 +65,8 @@ const handleLogin = async (req: Request, res: Response) => {
       success: true,
       accessToken,
       user: {
-        username: foundUser.userCredentials.username,
-        email: foundUser.userCredentials.email,
+        username: foundUser.credentials.username,
+        email: foundUser.credentials.email,
       },
     });
   } else {

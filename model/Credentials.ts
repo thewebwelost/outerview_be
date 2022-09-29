@@ -7,12 +7,12 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
-@Entity('userCredentials')
-export class UserCredentials extends BaseEntity {
+@Entity('credentials')
+export class Credentials extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => User, (user) => user.userCredentials, { onDelete: 'CASCADE' })
+  @OneToOne(() => User, (user) => user.credentials, { onDelete: 'CASCADE' })
   user!: User;
 
   @Column({ type: 'varchar', array: true, default: [] })
@@ -24,6 +24,6 @@ export class UserCredentials extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 }

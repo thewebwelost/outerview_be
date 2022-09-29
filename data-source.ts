@@ -11,7 +11,7 @@ import { Link } from './model/Link';
 import { Profile } from './model/Profile';
 import { User } from './model/User';
 import { Social } from './model/Social';
-import { UserCredentials } from './model/UserCredentials';
+import { Credentials } from './model/Credentials';
 
 const dbport = process.env.DB_PORT as string;
 const host = process.env.DB_HOST as string;
@@ -29,7 +29,7 @@ export const AppDataSource = new DataSource({
   password,
   database,
   synchronize: true,
-  logging: true,
+  logging: ['query', 'error'],
   entities: [
     Application,
     Company,
@@ -42,7 +42,7 @@ export const AppDataSource = new DataSource({
     Profile,
     User,
     Social,
-    UserCredentials,
+    Credentials,
   ],
   subscribers: [],
   migrations: [],

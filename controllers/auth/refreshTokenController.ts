@@ -30,7 +30,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
   const foundUser = await repo.findOne({
     where: {
-      userCredentials: {
+      credentials: {
         refreshToken: ArrayContains([refreshToken]),
       },
     },
@@ -50,7 +50,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         const repo = await AppDataSource.getRepository(User);
         const fraudUser = await repo.findOne({
           where: {
-            userCredentials: {
+            credentials: {
               email: decoded.email,
             },
           },
@@ -58,13 +58,13 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
         // const fraudUser = await repo
         //   .createQueryBuilder('fraudUser')
-        //   .leftJoinAndSelect('fraudUser.userCredentials', 'credentials')
+        //   .leftJoinAndSelect('fraudUser.credentials', 'credentials')
         //   .where('credentials.email = :email', { email: decoded.email })
         //   .getOne();
 
         // and then delete all tokens to prevent fraud
         if (fraudUser) {
-          fraudUser.userCredentials.refreshToken = [];
+          fraudUser.credentials.refreshToken = [];
           await fraudUser.save();
         }
       }
@@ -75,8 +75,8 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
   // when we find user with issued token we delete the old token from DB
   const newRefreshTokenArr =
-    foundUser.userCredentials.refreshToken &&
-    foundUser.userCredentials.refreshToken.filter((rt) => rt !== refreshToken);
+    foundUser.credentials.refreshToken &&
+    foundUser.credentials.refreshToken.filter((rt) => rt !== refreshToken);
 
   jwt.verify(
     refreshToken,
@@ -84,24 +84,24 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     // TODO: fix types
     async (err: any, decoded: any) => {
       if (err) {
-        foundUser.userCredentials.refreshToken = [...newRefreshTokenArr];
+        foundUser.credentials.refreshToken = [...newRefreshTokenArr];
         await foundUser.save();
       }
 
-      if (err || foundUser.userCredentials.email !== decoded.email)
+      if (err || foundUser.credentials.email !== decoded.email)
         return res.sendStatus(403);
       // issue new tokens if everything is matched correctly
       const accessToken = buildAccessToken(
-        { email: foundUser.userCredentials.email },
+        { email: foundUser.credentials.email },
         { expiresIn: '10m' }
       );
 
       const newRefreshToken = buildRefreshToken(
-        { email: foundUser.userCredentials.email },
+        { email: foundUser.credentials.email },
         { expiresIn: '30d' }
       );
       // write new refresh token to db
-      foundUser.userCredentials.refreshToken = [
+      foundUser.credentials.refreshToken = [
         ...newRefreshTokenArr,
         newRefreshToken,
       ];

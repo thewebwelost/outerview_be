@@ -11,19 +11,19 @@ import {
 } from 'typeorm';
 import { Application } from './Application';
 import { Profile } from './Profile';
-import { UserCredentials } from './UserCredentials';
+import { Credentials } from './Credentials';
 
 @Entity('users')
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @OneToOne(() => UserCredentials, (userCredentials) => userCredentials.user, {
+  @OneToOne(() => Credentials, (credentials) => credentials.user, {
     cascade: true,
     eager: true,
   })
-  @JoinTable({ name: 'credentials' })
-  userCredentials!: UserCredentials;
+  @JoinTable()
+  credentials!: Credentials;
 
   @Column({ type: 'varchar', nullable: true })
   avatar: string | undefined;

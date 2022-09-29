@@ -12,7 +12,7 @@ const handleLogout = async (req: Request, res: Response) => {
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
     where: {
-      userCredentials: {
+      credentials: {
         refreshToken: ArrayContains([refreshToken]),
       },
     },
@@ -28,8 +28,8 @@ const handleLogout = async (req: Request, res: Response) => {
   }
 
   // delete single refreshToken from db
-  foundUser.userCredentials.refreshToken =
-    foundUser.userCredentials.refreshToken.filter(
+  foundUser.credentials.refreshToken =
+    foundUser.credentials.refreshToken.filter(
       (rt: string) => rt !== refreshToken
     );
   await foundUser.save();

@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { User } from '../model/User';
 import { controllerErrorHandler } from '../helpers/controllerError';
-import { getProfiles } from '../features/profiles';
-import { getApplications } from '../features/applications';
 
 const getDashboard = async (req: Request, res: Response) => {
   if (!req.user?.email) {
@@ -13,23 +11,15 @@ const getDashboard = async (req: Request, res: Response) => {
   try {
     const repo = await AppDataSource.getRepository(User);
     const user = await repo.findOne({
-      select: ['id', 'avatar', 'userCredentials', 'profiles', 'applications'],
-      where: { userCredentials: { email: req.user?.email } },
+      select: ['id', 'avatar', 'credentials', 'profiles', 'applications'],
+      where: { credentials: { email: req.user?.email } },
     });
 
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    // PROBABLY SLOVED BY DB RELATIONS
-    const profiles = getProfiles(user.id) || [];
-    const applications = getApplications(user.id) || [];
-
-    return res.status(200).json({
-      ...user,
-      profiles,
-      applications,
-    });
+    return res.status(200).json({ ...user });
   } catch (err) {
     controllerErrorHandler({ err, res });
   }

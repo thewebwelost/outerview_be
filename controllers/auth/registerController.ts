@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { controllerErrorHandler } from '../../helpers/controllerError';
 import { AppDataSource } from '../../data-source';
 import { User } from '../../model/User';
-import { UserCredentials } from '../../model/UserCredentials';
+import { Credentials } from '../../model/Credentials';
 
 const createUser = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -14,14 +14,19 @@ const createUser = async (req: Request, res: Response) => {
       .json({ message: 'Name, email or password is missing' });
   // we check if user already exists
   const repo = await AppDataSource.getRepository(User);
-  const duplicate = await repo.findOne({
-    where: { userCredentials: { email } },
-  });
-  // const duplicate = await repo
-  //   .createQueryBuilder('duplicate')
-  //   .leftJoinAndSelect('duplicate.userCredentials', 'credentials')
-  //   .where('credentials.email = :email', { email })
-  //   .getOne();
+  // const duplicate = await repo.findOne({
+  //   relations: ['credentials'],
+  //   where: { credentials: { email } },
+  // });
+
+  const duplicate = await repo
+    .createQueryBuilder('user')
+    .select('user.credentials', 'credentials')
+    .where('credentials.email = :email', { email })
+    .getOne();
+
+  console.log('***duplicate***', duplicate);
+
   // send conflict error if user exists
   if (duplicate) return res.sendStatus(409); // Conflict
 
@@ -29,20 +34,22 @@ const createUser = async (req: Request, res: Response) => {
   try {
     const hashedPwd = await bcrypt.hash(password, 10);
 
-    const creds = new UserCredentials();
+    const creds = new Credentials();
     creds.username = username;
     creds.email = email;
     creds.password = hashedPwd;
 
     const user = new User();
-    user.userCredentials = creds;
+    user.credentials = creds;
+
+    console.log('***user***', user);
 
     // const user = repo.create({
     //   username,
     //   email,
     //   password: hashedPwd,
     // });
-    await repo.save(user);
+    await repo.create(user);
     // send created user to client
     res.status(201).json({
       success: `User ${username} added`,
