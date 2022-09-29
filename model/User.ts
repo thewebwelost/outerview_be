@@ -22,7 +22,7 @@ export class User {
     cascade: true,
     eager: true,
   })
-  @JoinColumn()
+  @JoinColumn([{ name: 'email', referencedColumnName: 'email' }])
   credentials!: Credentials;
 
   @Column({ type: 'varchar', nullable: true })

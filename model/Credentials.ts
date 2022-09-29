@@ -1,9 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 import { User } from './User';
 
 @Entity('credentials')
@@ -23,6 +18,6 @@ export class Credentials {
   @Column({ unique: true })
   email!: string;
 
-  @Column({ select: false })
+  @Column()
   password!: string;
 }
