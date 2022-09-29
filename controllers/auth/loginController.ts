@@ -14,6 +14,7 @@ const handleLogin = async (req: Request, res: Response) => {
   // find user in DB via email
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
+    relations: ['credentials'],
     where: { credentials: { email } },
   });
 
