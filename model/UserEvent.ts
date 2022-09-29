@@ -11,7 +11,7 @@ import { Application } from './Application';
 import { Contact } from './Contact';
 
 @Entity('events')
-export class Event extends BaseEntity {
+export class UserEvent extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

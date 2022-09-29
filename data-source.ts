@@ -4,7 +4,7 @@ import { Application } from './model/Application';
 import { Company } from './model/Company';
 import { Contact } from './model/Contact';
 import { Education } from './model/Education';
-import { Event } from './model/Event';
+import { UserEvent } from './model/UserEvent';
 import { Experience } from './model/Experience';
 import { Job } from './model/Job';
 import { Link } from './model/Link';
@@ -35,7 +35,7 @@ export const AppDataSource = new DataSource({
     Company,
     Contact,
     Education,
-    Event,
+    UserEvent,
     Experience,
     Job,
     Link,

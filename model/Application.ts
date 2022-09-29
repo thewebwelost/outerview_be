@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Job } from './Job';
 import { User } from './User';
-import { Event } from './Event';
+import { UserEvent } from './UserEvent';
 
 @Entity('applications')
 export class Application extends BaseEntity {
@@ -23,7 +23,7 @@ export class Application extends BaseEntity {
   @JoinTable()
   job!: Job[];
 
-  @OneToMany(() => Event, (event) => event.application)
+  @OneToMany(() => UserEvent, (event) => event.application)
   @JoinTable()
-  events?: Event[];
+  events?: UserEvent[];
 }
