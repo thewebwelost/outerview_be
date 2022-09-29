@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   ManyToOne,
 } from 'typeorm';
 import { Contact } from './Contact';

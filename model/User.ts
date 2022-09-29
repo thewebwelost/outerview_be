@@ -2,12 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
   JoinTable,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Application } from './Application';
 import { Profile } from './Profile';
@@ -22,7 +22,7 @@ export class User {
     cascade: true,
     eager: true,
   })
-  @JoinTable()
+  @JoinColumn()
   credentials!: Credentials;
 
   @Column({ type: 'varchar', nullable: true })

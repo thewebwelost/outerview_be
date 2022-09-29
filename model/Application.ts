@@ -1,9 +1,9 @@
 import {
   Entity,
   PrimaryGeneratedColumn,
-  BaseEntity,
   ManyToOne,
   OneToOne,
+  JoinColumn,
   JoinTable,
   OneToMany,
 } from 'typeorm';
@@ -20,7 +20,7 @@ export class Application {
   user!: User;
 
   @OneToOne(() => Job, (job) => job.application)
-  @JoinTable()
+  @JoinColumn()
   job!: Job[];
 
   @OneToMany(() => UserEvent, (event) => event.application)

@@ -14,16 +14,17 @@ const createUser = async (req: Request, res: Response) => {
       .json({ message: 'Name, email or password is missing' });
   // we check if user already exists
   const repo = await AppDataSource.getRepository(User);
-  // const duplicate = await repo.findOne({
-  //   relations: ['credentials'],
-  //   where: { credentials: { email } },
-  // });
+  const duplicate = await repo.findOne({
+    relations: ['credentials'],
+    where: { credentials: { email } },
+  });
 
-  const duplicate = await repo
-    .createQueryBuilder('user')
-    .select('user.credentials', 'credentials')
-    .where('credentials.email = :email', { email })
-    .getOne();
+  // const duplicate = await repo
+  //   .createQueryBuilder('user')
+  //   .leftJoin('user.credentials', 'credentials')
+  //   .select('user')
+  //   .where('credentials.email = :email', { email })
+  //   .getOne();
 
   console.log('***duplicate***', duplicate);
 
@@ -42,13 +43,6 @@ const createUser = async (req: Request, res: Response) => {
     const user = new User();
     user.credentials = creds;
 
-    console.log('***user***', user);
-
-    // const user = repo.create({
-    //   username,
-    //   email,
-    //   password: hashedPwd,
-    // });
     await repo.create(user);
     // send created user to client
     res.status(201).json({
