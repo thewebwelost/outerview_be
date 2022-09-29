@@ -14,7 +14,7 @@ import { Profile } from './Profile';
 import { Credentials } from './Credentials';
 
 @Entity('users')
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 

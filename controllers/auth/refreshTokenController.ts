@@ -65,7 +65,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         // and then delete all tokens to prevent fraud
         if (fraudUser) {
           fraudUser.credentials.refreshToken = [];
-          await fraudUser.save();
+          await repo.save(fraudUser);
         }
       }
     );
@@ -85,7 +85,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     async (err: any, decoded: any) => {
       if (err) {
         foundUser.credentials.refreshToken = [...newRefreshTokenArr];
-        await foundUser.save();
+        await repo.save(foundUser);
       }
 
       if (err || foundUser.credentials.email !== decoded.email)
@@ -105,7 +105,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         ...newRefreshTokenArr,
         newRefreshToken,
       ];
-      await foundUser.save();
+      await repo.save(foundUser);
       // return jwt in secure cookie
       res.cookie('jwt', newRefreshToken, {
         httpOnly: true,

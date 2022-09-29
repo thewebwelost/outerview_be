@@ -8,7 +8,7 @@ import {
 import { Profile } from './Profile';
 
 @Entity('experience')
-export class Experience extends BaseEntity {
+export class Experience {
   @PrimaryGeneratedColumn()
   id!: number;
 

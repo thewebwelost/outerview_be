@@ -12,7 +12,7 @@ import { Link } from './Link';
 import { UserEvent } from './UserEvent';
 
 @Entity('contacts')
-export class Contact extends BaseEntity {
+export class Contact {
   @PrimaryGeneratedColumn()
   id!: number;
 

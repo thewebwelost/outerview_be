@@ -13,7 +13,7 @@ import { Social } from './Social';
 import { User } from './User';
 
 @Entity('profiles')
-export class Profile extends BaseEntity {
+export class Profile {
   @PrimaryGeneratedColumn()
   id!: number;
 

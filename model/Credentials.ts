@@ -8,7 +8,7 @@ import {
 import { User } from './User';
 
 @Entity('credentials')
-export class Credentials extends BaseEntity {
+export class Credentials {
   @PrimaryGeneratedColumn()
   id!: number;
 

@@ -9,7 +9,7 @@ import { Contact } from './Contact';
 import { Profile } from './Profile';
 
 @Entity('links')
-export class Link extends BaseEntity {
+export class Link {
   @PrimaryGeneratedColumn()
   id!: number;
 

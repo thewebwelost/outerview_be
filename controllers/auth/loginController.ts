@@ -52,7 +52,7 @@ const handleLogin = async (req: Request, res: Response) => {
       ...newRefreshTokenArr,
     ];
 
-    await foundUser.save();
+    await repo.save(foundUser);
     // send new jwt with secure cookie
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,

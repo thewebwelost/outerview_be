@@ -32,7 +32,7 @@ const handleLogout = async (req: Request, res: Response) => {
     foundUser.credentials.refreshToken.filter(
       (rt: string) => rt !== refreshToken
     );
-  await foundUser.save();
+  await repo.save(foundUser);
   // clear cookies after logout
   res.clearCookie('jwt', {
     httpOnly: true,
