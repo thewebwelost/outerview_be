@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   OneToMany,
   JoinTable,
 } from 'typeorm';
@@ -10,7 +9,7 @@ import { Contact } from './Contact';
 import { Job } from './Job';
 
 @Entity('companies')
-export class Company extends BaseEntity {
+export class Company {
   @PrimaryGeneratedColumn()
   id!: number;
 

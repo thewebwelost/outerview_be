@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   ManyToOne,
@@ -8,14 +7,14 @@ import {
 import { Profile } from './Profile';
 
 @Entity('education')
-export class Education extends BaseEntity {
+export class Education {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @ManyToOne(() => Profile, (profile) => profile.education, {
     onDelete: 'CASCADE',
   })
-  profile!: number;
+  profile!: Profile;
 
   @Column()
   name!: string;

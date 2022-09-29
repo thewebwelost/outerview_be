@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ArrayContains } from 'typeorm';
 import { AppDataSource } from '../../data-source';
 import { User } from '../../model/User';
 
@@ -10,7 +11,11 @@ const handleLogout = async (req: Request, res: Response) => {
   // get user by refresh token from cookie
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
-    where: { refreshToken },
+    where: {
+      credentials: {
+        refreshToken: ArrayContains([refreshToken]),
+      },
+    },
   });
   // delete jwt if no user found
   if (!foundUser) {
@@ -23,10 +28,11 @@ const handleLogout = async (req: Request, res: Response) => {
   }
 
   // delete single refreshToken from db
-  foundUser.refreshToken = foundUser.refreshToken.filter(
-    (rt: string) => rt !== refreshToken
-  );
-  await foundUser.save();
+  foundUser.credentials.refreshToken =
+    foundUser.credentials.refreshToken.filter(
+      (rt: string) => rt !== refreshToken
+    );
+  await repo.save(foundUser);
   // clear cookies after logout
   res.clearCookie('jwt', {
     httpOnly: true,

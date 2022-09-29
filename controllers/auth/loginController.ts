@@ -14,28 +14,30 @@ const handleLogin = async (req: Request, res: Response) => {
   // find user in DB via email
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
-    where: { email },
+    where: { credentials: { email } },
   });
 
   if (!foundUser) return res.sendStatus(401);
 
-  const match = await bcrypt.compare(password, foundUser.password);
+  const match = await bcrypt.compare(password, foundUser.credentials.password);
   // if user was found and pass is matched issue access and refresh tokens
   if (match) {
     const accessToken = buildAccessToken(
-      { email: foundUser.email },
+      { email: foundUser.credentials.email },
       { expiresIn: '10m' }
     );
 
     const newRefreshToken = buildRefreshToken(
-      { email: foundUser.email },
+      { email: foundUser.credentials.email },
       { expiresIn: '30d' }
     );
 
     // if there is a jwt, delete it from DB
     const newRefreshTokenArr = !cookies?.jwt
-      ? foundUser.refreshToken
-      : foundUser.refreshToken.filter((rt: string) => rt !== cookies.jwt);
+      ? foundUser.credentials.refreshToken
+      : foundUser.credentials.refreshToken.filter(
+          (rt: string) => rt !== cookies.jwt
+        );
     // clear existing jwt cookie
     if (cookies?.jwt) {
       res.clearCookie('jwt', {
@@ -45,9 +47,12 @@ const handleLogin = async (req: Request, res: Response) => {
       });
     }
     // write new jwt to db
-    foundUser.refreshToken = [newRefreshToken, ...newRefreshTokenArr];
+    foundUser.credentials.refreshToken = [
+      newRefreshToken,
+      ...newRefreshTokenArr,
+    ];
 
-    await foundUser.save();
+    await repo.save(foundUser);
     // send new jwt with secure cookie
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
@@ -60,8 +65,8 @@ const handleLogin = async (req: Request, res: Response) => {
       success: true,
       accessToken,
       user: {
-        username: foundUser.username,
-        email: foundUser.email,
+        username: foundUser.credentials.username,
+        email: foundUser.credentials.email,
       },
     });
   } else {

@@ -1,14 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Profile } from './Profile';
 
 @Entity('social')
-export class Social extends BaseEntity {
+export class Social {
   @PrimaryGeneratedColumn()
   id!: number;
 

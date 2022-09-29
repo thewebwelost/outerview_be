@@ -2,19 +2,17 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   ManyToOne,
   OneToMany,
   JoinTable,
 } from 'typeorm';
 import { Education } from './Education';
 import { Experience } from './Experience';
-import { Link } from './Link';
 import { Social } from './Social';
 import { User } from './User';
 
 @Entity('profiles')
-export class Profile extends BaseEntity {
+export class Profile {
   @PrimaryGeneratedColumn()
   id!: number;
 

@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   OneToOne,
   JoinTable,
   ManyToOne,
@@ -11,7 +10,7 @@ import { Application } from './Application';
 import { Company } from './Company';
 
 @Entity('jobs')
-export class Job extends BaseEntity {
+export class Job {
   @PrimaryGeneratedColumn()
   id!: number;
 
