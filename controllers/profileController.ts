@@ -78,41 +78,47 @@ const addProfile = async (req: Request, res: Response) => {
     const profileRepo = await AppDataSource.getRepository(Profile);
     const newProfile = new Profile();
 
-    const newExperiences = experience.map((item: Experience) => {
-      const newExperience = new Experience();
+    const newExperiences =
+      experience &&
+      experience.map((item: Experience) => {
+        const newExperience = new Experience();
 
-      newExperience.name = item.name;
-      newExperience.startDate = item.startDate;
-      newExperience.endDate = item.endDate;
-      newExperience.isCurrent = item.isCurrent;
-      newExperience.responsibilities = item.responsibilities;
-      newExperience.achievements = item.achievements;
-      newExperience.keywords = item.keywords;
+        newExperience.name = item.name;
+        newExperience.startDate = item.startDate;
+        newExperience.endDate = item.endDate;
+        newExperience.isCurrent = item.isCurrent;
+        newExperience.responsibilities = item.responsibilities;
+        newExperience.achievements = item.achievements;
+        newExperience.keywords = item.keywords;
 
-      return newExperience;
-    });
+        return newExperience;
+      });
 
-    const newEducation = education.map((item: Education) => {
-      const newEducationItem = new Education();
+    const newEducation =
+      education &&
+      education.map((item: Education) => {
+        const newEducationItem = new Education();
 
-      newEducationItem.name = item.name;
-      newEducationItem.startDate = item.startDate;
-      newEducationItem.endDate = item.endDate;
-      newEducationItem.isCurrent = item.isCurrent;
-      newEducationItem.degree = item.degree;
-      newEducationItem.details = item.details;
+        newEducationItem.name = item.name;
+        newEducationItem.startDate = item.startDate;
+        newEducationItem.endDate = item.endDate;
+        newEducationItem.isCurrent = item.isCurrent;
+        newEducationItem.degree = item.degree;
+        newEducationItem.details = item.details;
 
-      return newEducationItem;
-    });
+        return newEducationItem;
+      });
 
-    const newSocials = socials.map((item: Social) => {
-      const newSocial = new Social();
+    const newSocials =
+      socials &&
+      socials.map((item: Social) => {
+        const newSocial = new Social();
 
-      newSocial.title = item.title;
-      newSocial.url = item.url;
+        newSocial.title = item.title;
+        newSocial.url = item.url;
 
-      return newSocial;
-    });
+        return newSocial;
+      });
 
     newProfile.experience = newExperiences;
     newProfile.education = newEducation;

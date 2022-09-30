@@ -5,7 +5,14 @@ import cookieParser from 'cookie-parser';
 import { AppDataSource } from './data-source';
 import corsOptions from './config/corsOptions';
 import credentials from './middleware/credentials';
-import { register, login, refresh, logout, dashboard } from './routes';
+import {
+  register,
+  login,
+  refresh,
+  logout,
+  dashboard,
+  profiles,
+} from './routes';
 import verifyToken from './middleware/verifyToken';
 
 const PORT = process.env.BASE_PORT!;
@@ -24,7 +31,7 @@ app.use('/refresh', refresh);
 app.use('/logout', logout);
 // must be protected
 app.use('/dashboard', verifyToken, dashboard);
-app.use('/proflies', verifyToken, () => {});
+app.use('/profiles', verifyToken, profiles);
 app.use('/applications', verifyToken, () => {});
 app.use('/events', verifyToken, () => {});
 // all unknown requests will error 404

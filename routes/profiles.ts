@@ -2,8 +2,8 @@ import express from 'express';
 const router = express.Router();
 import profileController from '../controllers/profileController';
 
-router.get('/', profileController.getProfiles);
+router.post('/', profileController.getProfiles); // TODO: probably worth passing userId as query param and change to get?
 router.get('/:profileId', profileController.getProfile);
-router.get('/addProfile', profileController.addProfile);
+router.post('/addProfile', profileController.addProfile);
 
 export default router;
