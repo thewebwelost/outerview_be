@@ -11,11 +11,8 @@ const handleLogout = async (req: Request, res: Response) => {
   // get user by refresh token from cookie
   const repo = await AppDataSource.getRepository(User);
   const foundUser = await repo.findOne({
-    where: {
-      credentials: {
-        refreshToken: ArrayContains([refreshToken]),
-      },
-    },
+    relations: ['credentials'],
+    where: { credentials: { refreshToken: ArrayContains([refreshToken]) } },
   });
   // delete jwt if no user found
   if (!foundUser) {
