@@ -30,7 +30,8 @@ const getProfile = async (req: Request, res: Response) => {
 const getProfiles = async (req: Request, res: Response) => {
   const { userId } = req.body;
 
-  if (!userId) return res.status(404).json({ message: 'Unknown profile id' });
+  if (!userId)
+    return res.status(400).json({ message: 'No profile id was provided' });
 
   try {
     const profileRepo = await AppDataSource.getRepository(Profile);
