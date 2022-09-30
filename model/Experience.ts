@@ -12,7 +12,7 @@ export class Experience {
   profile!: Profile;
 
   @Column()
-  name?: string;
+  name!: string;
 
   @Column()
   startDate?: Date;
@@ -20,7 +20,7 @@ export class Experience {
   @Column()
   endDate?: Date;
 
-  @Column()
+  @Column({ default: false })
   isCurrent?: boolean;
 
   @Column('simple-array')

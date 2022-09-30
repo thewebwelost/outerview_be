@@ -99,6 +99,10 @@ const addProfile = async (req: Request, res: Response) => {
       education.map((item: Education) => {
         const newEducationItem = new Education();
 
+        // Object.keys(item).forEach((key: string) => {
+        //   newEducationItem[key] = item[key]
+        // })
+
         newEducationItem.name = item.name;
         newEducationItem.startDate = item.startDate;
         newEducationItem.endDate = item.endDate;
