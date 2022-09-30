@@ -130,7 +130,11 @@ const addProfile = async (req: Request, res: Response) => {
     newProfile.email = email;
     newProfile.website = website;
 
-    profileRepo.create(newProfile);
+    await profileRepo.save(newProfile);
+    res.status(201).json({
+      success: `Profile ${name} added`,
+      newProfile,
+    });
   } catch (err) {
     controllerErrorHandler({ err, res });
   }
