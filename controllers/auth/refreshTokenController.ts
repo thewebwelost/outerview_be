@@ -21,19 +21,10 @@ const handleRefreshToken = async (req: Request, res: Response) => {
   });
 
   // we need to find user in our DB by old token
-  const repo = await AppDataSource.getRepository(User);
-  // const foundUser = await repo
-  //   .createQueryBuilder('user')
-  //   .leftJoinAndSelect('user.refreshToken', 'token')
-  //   .where('token @> :refreshToken', { refreshToken: [refreshToken] })
-  //   .getOne();
-
-  const foundUser = await repo.findOne({
-    where: {
-      credentials: {
-        refreshToken: ArrayContains([refreshToken]),
-      },
-    },
+  const userRepo = await AppDataSource.getRepository(User);
+  const foundUser = await userRepo.findOne({
+    relations: ['credentials'],
+    where: { credentials: { refreshToken: ArrayContains([refreshToken]) } },
   });
 
   // if there is no user found by token, it is potentially
@@ -49,18 +40,9 @@ const handleRefreshToken = async (req: Request, res: Response) => {
 
         const repo = await AppDataSource.getRepository(User);
         const fraudUser = await repo.findOne({
-          where: {
-            credentials: {
-              email: decoded.email,
-            },
-          },
+          relations: ['credentials'],
+          where: { credentials: { email: decoded.email } },
         });
-
-        // const fraudUser = await repo
-        //   .createQueryBuilder('fraudUser')
-        //   .leftJoinAndSelect('fraudUser.credentials', 'credentials')
-        //   .where('credentials.email = :email', { email: decoded.email })
-        //   .getOne();
 
         // and then delete all tokens to prevent fraud
         if (fraudUser) {
@@ -73,6 +55,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     return res.sendStatus(401);
   }
 
+  const oldArr = foundUser.credentials.refreshToken;
   // when we find user with issued token we delete the old token from DB
   const newRefreshTokenArr =
     foundUser.credentials.refreshToken &&
@@ -85,7 +68,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
     async (err: any, decoded: any) => {
       if (err) {
         foundUser.credentials.refreshToken = [...newRefreshTokenArr];
-        await repo.save(foundUser);
+        await userRepo.save(foundUser);
       }
 
       if (err || foundUser.credentials.email !== decoded.email)
@@ -105,7 +88,7 @@ const handleRefreshToken = async (req: Request, res: Response) => {
         ...newRefreshTokenArr,
         newRefreshToken,
       ];
-      await repo.save(foundUser);
+      await userRepo.save(foundUser);
       // return jwt in secure cookie
       res.cookie('jwt', newRefreshToken, {
         httpOnly: true,
