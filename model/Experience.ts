@@ -1,9 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Profile } from './Profile';
 
 @Entity('experience')
@@ -17,23 +12,23 @@ export class Experience {
   profile!: Profile;
 
   @Column()
-  name!: string;
+  name?: string;
 
   @Column()
-  startDate!: Date;
+  startDate?: Date;
 
   @Column()
-  endDate!: Date;
+  endDate?: Date;
 
   @Column()
-  isCurrent!: boolean;
+  isCurrent?: boolean;
 
   @Column('simple-array')
-  responsibilities!: string[];
+  responsibilities?: string[];
 
   @Column('simple-array')
-  achievements!: string[];
+  achievements?: string[];
 
   @Column('simple-array')
-  keywords!: string[];
+  keywords?: string[];
 }

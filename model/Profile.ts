@@ -23,7 +23,7 @@ export class Profile {
   name!: string;
 
   @Column({ type: 'text', nullable: true })
-  title?: string;
+  title!: string;
 
   @Column({ type: 'text', nullable: true })
   summary?: string;
@@ -45,7 +45,7 @@ export class Profile {
   @JoinTable()
   education?: Education[];
 
-  @Column('simple-array')
+  @Column({ type: 'simple-array', nullable: true })
   achievements?: string[];
 
   @Column({ type: 'text', nullable: true })

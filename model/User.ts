@@ -26,7 +26,7 @@ export class User {
   credentials!: Credentials;
 
   @Column({ type: 'varchar', nullable: true })
-  avatar: string | undefined;
+  avatar?: string;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -36,11 +36,11 @@ export class User {
 
   @OneToMany(() => Profile, (profile) => profile.user)
   @JoinTable()
-  profiles: Profile[] | undefined;
+  profiles!: Profile[];
 
   @OneToMany(() => Application, (application) => application.user, {
     onDelete: 'CASCADE',
   })
   @JoinTable()
-  applications: Application[] | undefined;
+  applications!: Application[];
 }

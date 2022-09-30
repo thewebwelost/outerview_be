@@ -1,9 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Profile } from './Profile';
 
 @Entity('education')
@@ -17,20 +12,20 @@ export class Education {
   profile!: Profile;
 
   @Column()
-  name!: string;
+  name?: string;
 
   @Column()
-  startDate!: Date;
+  startDate?: Date;
 
   @Column()
-  endDate!: Date;
+  endDate?: Date;
 
   @Column()
-  isCurrent!: boolean;
+  isCurrent?: boolean;
 
   @Column()
-  degree!: string;
+  degree?: string;
 
   @Column('simple-array')
-  details!: string[];
+  details?: string[];
 }
