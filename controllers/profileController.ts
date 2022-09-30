@@ -2,10 +2,9 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { controllerErrorHandler } from '../helpers/controllerError';
 import { Profile } from '../model/Profile';
-import { User } from '../model/User';
 
 const getProfile = async (req: Request, res: Response) => {
-  const { profileId } = req.body;
+  const { profileId } = req.params;
 
   if (!profileId)
     return res.status(404).json({ message: 'Unknown profile id' });
@@ -14,7 +13,7 @@ const getProfile = async (req: Request, res: Response) => {
     const profileRepo = await AppDataSource.getRepository(Profile);
     const profile = await profileRepo.findOne({
       relations: ['experience', 'education', 'socials'],
-      where: { id: profileId },
+      where: { id: parseInt(profileId) },
     });
 
     if (!profile) {
