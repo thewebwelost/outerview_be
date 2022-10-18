@@ -63,7 +63,6 @@ const handleLogin = async (req: Request, res: Response) => {
     });
     // send issued access token
     res.json({
-      success: true,
       accessToken,
       user: {
         username: foundUser.credentials.username,
