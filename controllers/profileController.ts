@@ -6,7 +6,7 @@ import { Experience } from '../model/Experience';
 import { Profile } from '../model/Profile';
 import { Social } from '../model/Social';
 
-const getProfile = async (req: Request, res: Response) => {
+const getOne = async (req: Request, res: Response) => {
   const { profileId } = req.body;
 
   if (!profileId)
@@ -29,7 +29,7 @@ const getProfile = async (req: Request, res: Response) => {
   }
 };
 
-const getProfiles = async (req: Request, res: Response) => {
+const getAll = async (req: Request, res: Response) => {
   const { userId } = req.body;
 
   if (!userId)
@@ -54,7 +54,7 @@ const getProfiles = async (req: Request, res: Response) => {
   }
 };
 
-const addProfile = async (req: Request, res: Response) => {
+const add = async (req: Request, res: Response) => {
   const {
     userId,
     name, // *
@@ -150,26 +150,7 @@ const addProfile = async (req: Request, res: Response) => {
   }
 };
 
-const updateProfile = async (req: Request, res: Response) => {
-  // const {
-  //   profileId,
-  //   name, // *
-  //   title, // *
-  //   summary,
-  //   details,
-  //   hardSkills,
-  //   softSkills,
-  //   experience,
-  //   education,
-  //   achievements,
-  //   country,
-  //   city,
-  //   state,
-  //   email,
-  //   website,
-  //   socials,
-  // } = req.body;
-
+const update = async (req: Request, res: Response) => {
   const { profileId, ...rest } = req.body;
 
   if (!profileId)
@@ -199,12 +180,26 @@ const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-const deleteProfile = (req: Request, res: Response) => {};
+const deleteOne = async (req: Request, res: Response) => {
+  const { profileId } = req.body;
+
+  if (!profileId)
+    return res.status(404).json({ message: 'Unknown profile id' });
+
+  try {
+    const profileRepo = await AppDataSource.getRepository(Profile);
+    profileRepo.delete(profileId);
+
+    return res.status(200).json('Deleted!');
+  } catch (err) {
+    controllerErrorHandler({ err, res });
+  }
+};
 
 export default {
-  getProfile,
-  getProfiles,
-  addProfile,
-  updateProfile,
-  deleteProfile,
+  getOne,
+  getAll,
+  add,
+  update,
+  deleteOne,
 };
