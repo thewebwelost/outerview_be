@@ -12,7 +12,7 @@ const getOne = async (req: Request, res: Response) => {
   try {
     const applicationRepo = await AppDataSource.getRepository(Application);
     const application = await applicationRepo.findOne({
-      relations: [],
+      relations: ['job', 'events'],
       where: { id: parseInt(applicationId) },
     });
 
@@ -26,7 +26,31 @@ const getOne = async (req: Request, res: Response) => {
   }
 };
 
-const getAll = (req: Request, res: Response) => {};
+const getAll = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+
+  if (!userId)
+    return res.status(400).json({ message: 'No user id was provided' });
+
+  try {
+    const applicationRepo = await AppDataSource.getRepository(Application);
+    const applications = await applicationRepo.find({
+      relations: ['job', 'events'],
+      where: {
+        userId,
+      },
+    });
+
+    if (!applications) {
+      return res.status(400).json({ message: 'Applications not found' });
+    }
+
+    return res.status(200).json(applications);
+  } catch (err) {
+    controllerErrorHandler({ err, res });
+  }
+};
+
 const add = (req: Request, res: Response) => {};
 const update = (req: Request, res: Response) => {};
 const deleteOne = (req: Request, res: Response) => {};
