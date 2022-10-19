@@ -5,5 +5,6 @@ import profileController from '../controllers/profileController';
 router.post('/', profileController.getProfiles); // TODO: probably worth passing userId as query param and change to get?
 router.post('/getProfile', profileController.getProfile);
 router.post('/addProfile', profileController.addProfile);
+router.post('/updateProfile', profileController.updateProfile);
 
 export default router;

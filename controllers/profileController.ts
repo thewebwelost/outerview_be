@@ -150,7 +150,55 @@ const addProfile = async (req: Request, res: Response) => {
   }
 };
 
-const updateProfile = (req: Request, res: Response) => {};
+const updateProfile = async (req: Request, res: Response) => {
+  // const {
+  //   profileId,
+  //   name, // *
+  //   title, // *
+  //   summary,
+  //   details,
+  //   hardSkills,
+  //   softSkills,
+  //   experience,
+  //   education,
+  //   achievements,
+  //   country,
+  //   city,
+  //   state,
+  //   email,
+  //   website,
+  //   socials,
+  // } = req.body;
+
+  const { profileId, ...rest } = req.body;
+
+  if (!profileId)
+    return res.status(404).json({ message: 'Unknown profile id' });
+
+  try {
+    const profileRepo = await AppDataSource.getRepository(Profile);
+    const profile = await profileRepo.findOne({
+      relations: ['experience', 'education', 'socials'],
+      where: { id: parseInt(profileId) },
+    });
+
+    if (!profile) {
+      return res.status(400).json({ message: 'Profile not found' });
+    }
+
+    const newProfile = profileRepo.create({
+      ...profile,
+      ...rest,
+    });
+
+    profileRepo.save(newProfile);
+
+    return res.status(200).json(newProfile);
+  } catch (err) {
+    controllerErrorHandler({ err, res });
+  }
+};
+
 const deleteProfile = (req: Request, res: Response) => {};
 
 export default {
