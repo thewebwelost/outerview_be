@@ -6,6 +6,7 @@ import {
   JoinColumn,
   JoinTable,
   OneToMany,
+  Column,
 } from 'typeorm';
 import { Job } from './Job';
 import { User } from './User';
@@ -17,7 +18,11 @@ export class Application {
   id!: number;
 
   @ManyToOne(() => User, (user) => user.applications, { onDelete: 'CASCADE' })
+  @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
   user!: User;
+
+  @Column({ nullable: false })
+  userId!: number;
 
   @OneToOne(() => Job, (job) => job.application)
   @JoinColumn()
