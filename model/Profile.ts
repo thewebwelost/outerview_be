@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { Education } from './Education';
 import { Experience } from './Experience';
@@ -17,7 +18,11 @@ export class Profile {
   id!: number;
 
   @ManyToOne(() => User, (user) => user.profiles, { onDelete: 'CASCADE' })
+  @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
   user!: User;
+
+  @Column({ nullable: false })
+  userId!: number;
 
   @Column()
   name!: string;

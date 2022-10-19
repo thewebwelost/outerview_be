@@ -7,7 +7,7 @@ import { Profile } from '../model/Profile';
 import { Social } from '../model/Social';
 
 const getProfile = async (req: Request, res: Response) => {
-  const { profileId } = req.params;
+  const { profileId } = req.body;
 
   if (!profileId)
     return res.status(404).json({ message: 'Unknown profile id' });
@@ -39,7 +39,9 @@ const getProfiles = async (req: Request, res: Response) => {
     const profileRepo = await AppDataSource.getRepository(Profile);
     const profiles = await profileRepo.find({
       relations: ['experience', 'education', 'socials'],
-      where: { user: userId },
+      where: {
+        userId,
+      },
     });
 
     if (!profiles) {
@@ -54,6 +56,7 @@ const getProfiles = async (req: Request, res: Response) => {
 
 const addProfile = async (req: Request, res: Response) => {
   const {
+    userId,
     name, // *
     title, // *
     summary,
@@ -99,10 +102,6 @@ const addProfile = async (req: Request, res: Response) => {
       education.map((item: Education) => {
         const newEducationItem = new Education();
 
-        // Object.keys(item).forEach((key: string) => {
-        //   newEducationItem[key] = item[key]
-        // })
-
         newEducationItem.name = item.name;
         newEducationItem.startDate = item.startDate;
         newEducationItem.endDate = item.endDate;
@@ -124,6 +123,7 @@ const addProfile = async (req: Request, res: Response) => {
         return newSocial;
       });
 
+    newProfile.user = userId;
     newProfile.experience = newExperiences;
     newProfile.education = newEducation;
     newProfile.socials = newSocials;
