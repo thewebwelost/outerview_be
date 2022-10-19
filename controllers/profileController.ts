@@ -54,6 +54,7 @@ const getAll = async (req: Request, res: Response) => {
   }
 };
 
+// TODO: refactor me as UPDATE
 const add = async (req: Request, res: Response) => {
   const {
     userId,
