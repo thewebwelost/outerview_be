@@ -26,7 +26,7 @@ export class Application {
 
   @OneToOne(() => Job, (job) => job.application)
   @JoinColumn()
-  job!: Job[];
+  job!: Job;
 
   @OneToMany(() => UserEvent, (event) => event.application)
   @JoinTable()

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { controllerErrorHandler } from '../helpers/controllerError';
 import { Application } from '../model/Application';
+import { Job } from '../model/Job';
+import { UserEvent } from '../model/UserEvent';
 
 const getOne = async (req: Request, res: Response) => {
   const { applicationId } = req.body;
@@ -51,7 +53,45 @@ const getAll = async (req: Request, res: Response) => {
   }
 };
 
-const add = (req: Request, res: Response) => {};
+const add = async (req: Request, res: Response) => {
+  const { companyId, job, userEvents } = req.body;
+
+  if (!companyId)
+    return res.status(400).json({ message: 'Mandatory field missing' });
+
+  try {
+    const applicationRepo = await AppDataSource.getRepository(Application);
+
+    // TODO: is this an array?
+    const jobRepo = await AppDataSource.getRepository(Job);
+    const newJob = jobRepo.create({
+      ...job,
+    });
+    jobRepo.save(newJob);
+
+    // TODO: is this an array?
+    const eventsRepo = await AppDataSource.getRepository(UserEvent);
+    const newEvent = eventsRepo.create({
+      ...userEvents,
+    });
+    eventsRepo.save(newEvent);
+
+    const newApplication = new Application();
+
+    newApplication.events = newEvent;
+    // newApplication.job = newJob;
+
+    await applicationRepo.save(newApplication);
+
+    res.status(201).json({
+      success: `Application added`,
+      newApplication,
+    });
+  } catch (err) {
+    controllerErrorHandler({ err, res });
+  }
+};
+
 const update = (req: Request, res: Response) => {};
 const deleteOne = (req: Request, res: Response) => {};
 
