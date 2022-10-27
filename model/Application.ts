@@ -6,7 +6,6 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { Link } from './Link';
 import { User } from './User';
 import { UserEvent } from './UserEvent';
 
