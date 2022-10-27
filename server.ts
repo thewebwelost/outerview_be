@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express, { NextFunction, Request, Response } from 'express';
+import express, { application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { AppDataSource } from './data-source';
@@ -12,6 +12,7 @@ import {
   logout,
   dashboard,
   profiles,
+  applications,
 } from './routes';
 import verifyToken from './middleware/verifyToken';
 
@@ -32,7 +33,7 @@ app.use('/logout', logout);
 // must be protected
 app.use('/dashboard', verifyToken, dashboard);
 app.use('/profiles', verifyToken, profiles);
-app.use('/applications', verifyToken, () => {});
+app.use('/applications', verifyToken, applications);
 app.use('/events', verifyToken, () => {});
 // all unknown requests will error 404
 app.all('*', (req, res) => {

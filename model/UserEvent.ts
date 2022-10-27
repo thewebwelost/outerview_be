@@ -14,7 +14,7 @@ export class UserEvent {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Application, (application) => application.events)
+  @ManyToOne(() => Application, (application) => application.userEvents)
   application!: Application;
 
   @Column()

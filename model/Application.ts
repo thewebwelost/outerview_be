@@ -2,13 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  OneToOne,
   JoinColumn,
-  JoinTable,
-  OneToMany,
   Column,
+  OneToMany,
 } from 'typeorm';
-import { Job } from './Job';
+import { Link } from './Link';
 import { User } from './User';
 import { UserEvent } from './UserEvent';
 
@@ -24,11 +22,33 @@ export class Application {
   @Column({ nullable: false })
   userId!: number;
 
-  @OneToOne(() => Job, (job) => job.application)
-  @JoinColumn()
-  job!: Job;
+  @OneToMany(() => UserEvent, (ev) => ev.application, { onDelete: 'CASCADE' })
+  @JoinColumn([{ name: 'userEvents', referencedColumnName: 'id' }])
+  userEvents!: UserEvent[];
 
-  @OneToMany(() => UserEvent, (event) => event.application)
-  @JoinTable()
-  events?: UserEvent[];
+  @Column({ nullable: false })
+  eventsIds!: number[];
+
+  @Column()
+  company!: string;
+
+  @Column()
+  link!: string;
+
+  @Column()
+  description!: string;
+
+  @Column()
+  salary!: string;
+
+  @Column()
+  location!: string;
+
+  // @ManyToOne(() => Link, (link) => link.applications, { onDelete: 'CASCADE' })
+  // @JoinColumn([{ name: 'linkIds', referencedColumnName: 'id' }])
+  // link!: Link[];
+
+  // @ManyToOne(() => Profiles, (link) => link.applications, { onDelete: 'CASCADE' })
+  // @JoinColumn([{ name: 'linkIds', referencedColumnName: 'id' }])
+  // link!: Profiles[];
 }

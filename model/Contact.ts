@@ -6,7 +6,7 @@ import {
   OneToMany,
   JoinTable,
 } from 'typeorm';
-import { Company } from './Company';
+
 import { Link } from './Link';
 import { UserEvent } from './UserEvent';
 
@@ -14,9 +14,6 @@ import { UserEvent } from './UserEvent';
 export class Contact {
   @PrimaryGeneratedColumn()
   id!: number;
-
-  @ManyToOne(() => Company, (company) => company.contact)
-  company!: Company;
 
   @ManyToOne(() => UserEvent, (event) => event.interviewers)
   event!: UserEvent;
