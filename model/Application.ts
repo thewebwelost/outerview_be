@@ -32,7 +32,7 @@ export class Application {
   @Column()
   company!: string;
 
-  @Column()
+  @Column() // relation?
   link!: string;
 
   @Column()

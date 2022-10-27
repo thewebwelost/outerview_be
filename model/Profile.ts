@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Education } from './Education';
 import { Experience } from './Experience';
-import { Social } from './Social';
+import { Link } from './Link';
 import { User } from './User';
 
 @Entity('profiles')
@@ -68,7 +68,7 @@ export class Profile {
   @Column({ type: 'text', nullable: true })
   website?: string;
 
-  @OneToMany(() => Social, (social) => social.profile)
+  @OneToMany(() => Link, (link) => link.profile)
   @JoinTable()
-  socials?: Social[];
+  socials?: Link[];
 }

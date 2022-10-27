@@ -7,7 +7,6 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Application } from './Application';
-import { Contact } from './Contact';
 
 @Entity('events')
 export class UserEvent {
@@ -28,10 +27,6 @@ export class UserEvent {
 
   @Column()
   date!: Date;
-
-  @OneToMany(() => Contact, (contact) => contact.event)
-  @JoinTable()
-  interviewers!: number[];
 
   @Column()
   details!: string;
